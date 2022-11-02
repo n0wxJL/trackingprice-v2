@@ -1,5 +1,4 @@
 # binance tracker price
-from distutils.command.build_scripts import first_line_re
 from http import client
 from binance.client import Client
 from pprint import pprint
@@ -21,14 +20,18 @@ prices = client.get_all_tickers()
 time_res = client.get_server_time()
 todaydate = datetime.fromtimestamp(time_res['serverTime']/1000)
 ## print(todaydate)
-end_date = todaydate + dt.timedelta(days=-1)
+end_date = todaydate + dt.timedelta(days=-2)
 ## print(end_date)
 
 mycoin = ['ETHUSDT','BTCUSDT']
-# symbol = "BTCUSDT" 
+
 interval='1d' 
 start_date = str(end_date) #str(time_res['serverTime'])
+# print(start_date)
+
+# symbol = "BTCUSDT" 
 # klines = client.get_historical_klines(symbol, interval,start_date) 
+# # print(klines)
 # data = pd.DataFrame(klines)
 # print(data)
 # data.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume','close_time', 'qav', 'num_trades','taker_base_vol', 'taker_quote_vol', 'ignore']
@@ -44,7 +47,7 @@ while True:
             if p['symbol'] == sym :
               #change
               klines = client.get_historical_klines(sym, interval,start_date)
-              # print(klines[0][1])
+              #print(klines[0][1])
               # data.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume','close_time', 'qav', 'num_trades','taker_base_vol', 'taker_quote_vol', 'ignore']
               #price
               pc = float(p['price']) 
@@ -53,4 +56,4 @@ while True:
               alltext += '\n' + text
     print(alltext)
     messenger.sendtext(alltext)
-    time.sleep(5)
+    time.sleep(10)
