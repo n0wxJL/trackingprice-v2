@@ -56,4 +56,4 @@ while True:
               alltext += '\n' + text
     print(alltext)
     messenger.sendtext(alltext)
-    time.sleep(10)
+    time.sleep(3600)
