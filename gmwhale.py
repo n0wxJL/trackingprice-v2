@@ -13,8 +13,9 @@ token_noti = tkk.token_noti
 client = Client(api_key, api_secret)
 messenger = Sendline(token_noti)
 # nexttoday = (datetime.utcnow().date()) + dt.timedelta(days=1)
-tdate = None
+
 def gmwhale():
+    tdate = None
     while True:
         messenger.sendtext('test')
         time_res = client.get_server_time()
