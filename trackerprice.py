@@ -2,7 +2,8 @@
 import gmwhale
 
 def main():
-    gmwhale.gmwhale()
+    while True:
+        gmwhale.gmwhale()
 
 if __name__ == "__main__":
     main()
