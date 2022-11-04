@@ -15,7 +15,7 @@ messenger = Sendline(token_noti)
 # nexttoday = (datetime.utcnow().date()) + dt.timedelta(days=1)
 def gmwhale():
     while True:
-        print('test')
+        messenger.sendtext('test')
         time_res = client.get_server_time()
         todaydate = datetime.fromtimestamp(time_res['serverTime']/1000).date()
         if tdate is None:
