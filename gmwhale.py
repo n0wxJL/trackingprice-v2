@@ -5,6 +5,8 @@ import time
 import datetime as dt
 from datetime import datetime
 import token_api as tkk
+import setup_var as sv
+import random
 
 api_key = tkk.api_key
 api_secret = tkk.api_secret
@@ -23,7 +25,12 @@ def gmwhale():
             tdate = todaydate
         if tdate != todaydate:
             tdate = todaydate
-            value_text = 'Good morning.'
+            value_text = 'Good morning.'+'\n'+callQoute()
             print(value_text)
             messenger.sendtext(value_text)
         time.sleep(1)
+
+
+def callQoute():
+    return sv.txt_gm[random.randrange(len(sv.txt_gm))]
+    # messenger.sendtext(sv.txt_gm[random.randrange(len(sv.txt_gm))])
