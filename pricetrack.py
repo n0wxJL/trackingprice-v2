@@ -3,7 +3,7 @@ from binance.client import Client
 from pprint import pprint
 from songline import Sendline
 import time
-# import pandas as pd
+import pandas as pd
 import datetime as dt
 from datetime import datetime
 import token_api as tkk
@@ -19,27 +19,32 @@ messenger = Sendline(token_noti)
 interval='1h'
 mycoin = coin_list.mycoin
 
+# candle = client.get_historical_klines(symbol='BTCUSDT',interval=interval,limit=2)
+# candle1 = pd.DataFrame(candle)
+# print(candle1)
+# candle1 = candle1.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume','close_time', 'qav', 'num_trades','taker_base_vol', 'taker_quote_vol', 'ignore']
+# candle1.index = [dt.datetime.fromtimestamp(x/1000.0) for x in candle1.close_time]
+# pprint(candle1)
+
 # prices = client.get_all_tickers()
 # time_res = client.get_server_time()
 # todaydate = datetime.fromtimestamp(time_res['serverTime']/1000)
 # ## print(todaydate)
 # end_date = todaydate + dt.timedelta(days=-2)
 # ## print(end_date)
-
-
-
  
 # start_date = str(end_date) #str(time_res['serverTime'])
 # # print(start_date)
 
-# symbol = "BTCUSDT" 
-# klines = client.get_historical_klines(symbol, interval,start_date) 
-# # print(klines)
-# data = pd.DataFrame(klines)
+symbol = "BTCUSDT" 
+klines = client.get_historical_klines(symbol, interval=interval,limit=3) 
+# print(klines)
+data = pd.DataFrame(klines)
 # print(data)
-# data.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume','close_time', 'qav', 'num_trades','taker_base_vol', 'taker_quote_vol', 'ignore']
-# data.index = [dt.datetime.fromtimestamp(x/1000.0) for x in data.close_time]
-# data.head(7)
+data.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume','close_time', 'qav', 'num_trades','taker_base_vol', 'taker_quote_vol', 'ignore']
+data.index = [dt.datetime.fromtimestamp(x/1000.0) for x in data.close_time]
+# data.head(1)
+print(data)
 
 # while True:
 #     alltext = ''
