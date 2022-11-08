@@ -18,17 +18,17 @@ messenger = Sendline(token_noti)
 
 def gmwhale():
     tdate = None
-    while True:
-        time_res = client.get_server_time()
-        todaydate = datetime.fromtimestamp(time_res['serverTime']/1000).date()
-        if tdate is None:
-            tdate = todaydate
-        if tdate != todaydate:
-            tdate = todaydate
-            value_text = 'Good morning.'+'\n'+callQoute()
-            print(value_text)
-            messenger.sendtext(value_text)
-        time.sleep(1)
+    # while True:
+    time_res = client.get_server_time()
+    todaydate = datetime.fromtimestamp(time_res['serverTime']/1000).date()
+    if tdate is None:
+        tdate = todaydate
+    if tdate != todaydate:
+        tdate = todaydate
+        value_text = 'Good morning.'+'\n'+callQoute()
+        print(value_text)
+        messenger.sendtext(value_text)
+    # time.sleep(1)
 
 
 def callQoute():

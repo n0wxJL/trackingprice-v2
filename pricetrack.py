@@ -8,6 +8,8 @@ import datetime as dt
 from datetime import datetime
 import token_api as tkk
 import coin_list
+import setup_var as sv
+import re
 
 api_key = tkk.api_key
 api_secret = tkk.api_secret
@@ -16,75 +18,41 @@ token_noti = tkk.token_noti
 client = Client(api_key, api_secret)
 messenger = Sendline(token_noti)
 
-interval='1h'
+interval_bef = sv.interval
+interval_tf = sv.interval_candle
 mycoin = coin_list.mycoin
+dict_tf = {'M':'MINUTE','H':'HOUR','D':'DAY'}
 
-# candle = client.get_historical_klines(symbol='BTCUSDT',interval=interval,limit=2)
-# candle1 = pd.DataFrame(candle)
-# print(candle1)
-# candle1 = candle1.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume','close_time', 'qav', 'num_trades','taker_base_vol', 'taker_quote_vol', 'ignore']
-# candle1.index = [dt.datetime.fromtimestamp(x/1000.0) for x in candle1.close_time]
-# pprint(candle1)
+fmt = '%Y-%m-%d %H:%M:%S'
+tf_num = re.findall(r'\d+', interval_tf)
+tf_text = re.sub('\d+', '', interval_tf)
+tf_type_text = ''
 
-# prices = client.get_all_tickers()
-# time_res = client.get_server_time()
-# todaydate = datetime.fromtimestamp(time_res['serverTime']/1000)
-# ## print(todaydate)
-# end_date = todaydate + dt.timedelta(days=-2)
-# ## print(end_date)
- 
-# start_date = str(end_date) #str(time_res['serverTime'])
-# # print(start_date)
+for i in range(len(dict_tf)):
+    if tf_text.upper() in dict_tf:
+        tf_type_text = dict_tf[tf_text.upper()]
+        break
 
-symbol = "BTCUSDT" 
-klines = client.get_historical_klines(symbol, interval=interval,limit=3) 
-# print(klines)
-data = pd.DataFrame(klines)
-# print(data)
-data.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume','close_time', 'qav', 'num_trades','taker_base_vol', 'taker_quote_vol', 'ignore']
-data.index = [dt.datetime.fromtimestamp(x/1000.0) for x in data.close_time]
-# data.head(1)
-print(data)
-
-# while True:
-#     alltext = ''
-#     prices = client.get_all_tickers() #request new price
-#     for p in prices:
-#         for c in mycoin:
-#             sym = c
-#             if p['symbol'] == sym :
-#               #change
-#               klines = client.get_historical_klines(sym, interval,start_date)
-#               #print(klines[0][1])
-#               # data.columns = ['datetime', 'open', 'high', 'low', 'close', 'volume','close_time', 'qav', 'num_trades','taker_base_vol', 'taker_quote_vol', 'ignore']
-#               #price
-#               pc = float(p['price']) 
-#               chg =  (pc - float(klines[0][1]))/float(klines[0][1])*100
-#               text = '{} : {:,.3f} CHG {:,.3f}%'.format(sym,pc,chg)
-#               alltext += '\n' + text
-#     print(alltext)
-#     # messenger.sendtext(alltext)
-#     time.sleep(1)
-
-
-# def prictrack():
-#     while True:
-#         time_res = client.get_server_time()
-#         alltext = ''
-#         for c in mycoin:
-#             sym = c
-#             print(c)
-#             klines = client.get_historical_klines(sym, interval,end_str=time_res['serverTime'],limit=2)
-#             for i in len(klines):
-#                 pprint(klines[0][i])
-
-#         #     pc = float(p['price']) 
-#         #     # chg =  (pc - float(klines[0][1]))/float(klines[0][1])*100
-#         #     # text = '{} : {:,.3f} CHG {:,.3f}%'.format(sym,pc,chg)
-#         #     text = '{} : {:,.3f}'.format(sym,pc)
-#         #     alltext += '\n' + text
-#         # print(alltext)
-#         # messenger.sendtext(alltext)
-#         time.sleep(5)
-
-# prictrack()
+def pricetrack():
+    print(1)
+    # while True:
+    time_res = client.get_server_time()
+    all_text = 'Time Frame : {} {}\n'.format(tf_num[0],tf_type_text)
+    for sym in mycoin:
+        candle_bef = client.get_historical_klines(sym, interval=interval_bef,limit=1)
+        candle_tf = client.get_historical_klines(sym, interval=interval_tf,limit=1)
+        now_server_date = dt.datetime.strptime(dt.datetime.fromtimestamp(time_res['serverTime']/1000).strftime(fmt),fmt)
+        now_server_int = int(now_server_date.timestamp())
+        close_candle_date = dt.datetime.strptime(dt.datetime.fromtimestamp(candle_tf[0][6]/1000).strftime(fmt),fmt)
+        close_candle_int = int(close_candle_date.timestamp())
+        if ((close_candle_int - now_server_int) <= 1):
+            candle_tf_fl = float(candle_tf[0][4])
+            candle_bef_fl = float(candle_bef[0][1])
+            candle_chg = ((candle_tf_fl-candle_bef_fl)/candle_bef_fl)*100
+            all_text += '{}:{:,.3f} CHG:{:,.2f}%\n'.format(sym,candle_tf_fl,candle_chg)
+        else:
+            all_text = ''
+    if all_text:
+        print(all_text)
+        messenger.sendtext(all_text)
+        # time.sleep(1)
