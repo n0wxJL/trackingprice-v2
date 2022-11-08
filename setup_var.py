@@ -3,4 +3,4 @@ txt_gm = ['Hold on to your heart','And I will try to fix you','This is your mome
 
 # kline interval
 interval = '1d'
-interval_candle = '1m'
+interval_candle = '4h'

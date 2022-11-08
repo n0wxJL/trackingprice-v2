@@ -34,7 +34,6 @@ for i in range(len(dict_tf)):
         break
 
 def pricetrack():
-    print(1)
     # while True:
     time_res = client.get_server_time()
     all_text = 'Time Frame : {} {}\n'.format(tf_num[0],tf_type_text)
