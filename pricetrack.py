@@ -3,7 +3,7 @@ from binance.client import Client
 from pprint import pprint
 from songline import Sendline
 import time
-import pandas as pd
+# import pandas as pd
 import datetime as dt
 from datetime import datetime
 import token_api as tkk
