@@ -35,16 +35,16 @@ for i in range(len(dict_tf)):
 
 def pricetrack():
     # while True:
-    time_res = client.get_server_time()
     all_text = 'Time Frame : {} {}\n'.format(tf_num[0],tf_type_text)
     for sym in mycoin:
+        time_res = client.get_server_time()
         candle_bef = client.get_historical_klines(sym, interval=interval_bef,limit=1)
         candle_tf = client.get_historical_klines(sym, interval=interval_tf,limit=1)
         now_server_date = dt.datetime.strptime(dt.datetime.fromtimestamp(time_res['serverTime']/1000).strftime(fmt),fmt)
         now_server_int = int(now_server_date.timestamp())
         close_candle_date = dt.datetime.strptime(dt.datetime.fromtimestamp(candle_tf[0][6]/1000).strftime(fmt),fmt)
         close_candle_int = int(close_candle_date.timestamp())
-        if ((close_candle_int - now_server_int) <= 0):
+        if ((close_candle_int - now_server_int) == 0):
             candle_tf_fl = float(candle_tf[0][4])
             candle_bef_fl = float(candle_bef[0][1])
             candle_chg = ((candle_tf_fl-candle_bef_fl)/candle_bef_fl)*100
