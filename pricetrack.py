@@ -35,9 +35,9 @@ for i in range(len(dict_tf)):
 
 def pricetrack():
     # while True:
+    time_res = client.get_server_time()
     all_text = 'Time Frame : {} {}\n'.format(tf_num[0],tf_type_text)
     for sym in mycoin:
-        time_res = client.get_server_time()
         candle_bef = client.get_historical_klines(sym, interval=interval_bef,limit=1)
         candle_tf = client.get_historical_klines(sym, interval=interval_tf,limit=1)
         now_server_date = dt.datetime.strptime(dt.datetime.fromtimestamp(time_res['serverTime']/1000).strftime(fmt),fmt)
