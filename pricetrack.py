@@ -44,7 +44,7 @@ def pricetrack():
         now_server_int = int(now_server_date.timestamp())
         close_candle_date = dt.datetime.strptime(dt.datetime.fromtimestamp(candle_tf[0][6]/1000).strftime(fmt),fmt)
         close_candle_int = int(close_candle_date.timestamp())
-        if ((close_candle_int - now_server_int) == 0):
+        if ((close_candle_int - now_server_int) <= 1):
             candle_tf_fl = float(candle_tf[0][4])
             candle_bef_fl = float(candle_bef[0][1])
             candle_chg = ((candle_tf_fl-candle_bef_fl)/candle_bef_fl)*100
