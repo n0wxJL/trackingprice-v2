@@ -14,22 +14,11 @@ token_noti = tkk.token_noti
 
 client = Client(api_key, api_secret)
 messenger = Sendline(token_noti)
-# nexttoday = (datetime.utcnow().date()) + dt.timedelta(days=1)
-tdate = None
+
 def gmwhale():
-    # tdate = None
-    # while True:
-    time_res = client.get_server_time()
-    todaydate = datetime.fromtimestamp(time_res['serverTime']/1000).date()
-    if tdate is None:
-        tdate = todaydate
-    if tdate != todaydate:
-        tdate = todaydate
-        value_text = 'Good morning.'+'\n'+callQoute()
+        value_text = 'Good morning. :)'+'\n'+callQoute()
         print(value_text)
         messenger.sendtext(value_text)
-    # time.sleep(1)
-
 
 def callQoute():
     return sv.txt_gm[random.randrange(len(sv.txt_gm))]
