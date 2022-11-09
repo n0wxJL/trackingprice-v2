@@ -30,10 +30,11 @@ def time_next_day():
         print('Add Next Day',next_day[0])
 
     next_day_date = dt.datetime.strptime(next_day[0],fmt)
-    if next_day_date.day - time_server.day == 0:
+    if (next_day_date.day - time_server.day) == 0:
         print('New Day :)')
         next_day.pop(0)
-        print('Delete Day in next_day')
+        # print('Delete Day in next_day')
         return True
     else:
+        print('Old Day')
         return False

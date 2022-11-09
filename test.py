@@ -23,20 +23,25 @@ interval_tf = '3m' # sv.interval_candle
 mycoin = coin_list.mycoin
 fmt = '%Y-%m-%d %H:%M:%S'
 
+
+def next_bar():
+    # while True:
+        time_server = client.get_server_time()
+        time_server_date = dt.datetime.fromtimestamp(time_server['serverTime']/1000).strftime(fmt)
+        time_server_date = dt.datetime.strptime(time_server_date,fmt)
+        print('Timer Sever:',time_server_date)
+        candle_bef = client.get_historical_klines('BTCUSDT', interval=interval_bef,limit=1)
+        candle_bef_date = dt.datetime.fromtimestamp(candle_bef[0][0]/1000).strftime(fmt)
+        candle_bef_date = dt.datetime.strptime(candle_bef_date,fmt)
+        print('Timer Candle:',candle_bef_date)
+        time_diff_min = ((time_server_date - candle_bef_date).total_seconds()/60)
+        print(time_diff_min)
+
 while True:
-    time_server = client.get_server_time()
-    time_server_date = dt.datetime.fromtimestamp(time_server['serverTime']/1000).strftime(fmt)
-    time_server_date = dt.datetime.strptime(time_server_date,fmt)
-    print('Timer Sever:',time_server_date)
-    candle_bef = client.get_historical_klines('BTCUSDT', interval=interval_bef,limit=1)
-    candle_bef_date = dt.datetime.fromtimestamp(candle_bef[0][0]/1000).strftime(fmt)
-    candle_bef_date = dt.datetime.strptime(candle_bef_date,fmt)
-    print('Timer Candle:',candle_bef_date)
-    time_diff_min = ((time_server_date - candle_bef_date).total_seconds()/60)
-    print(time_diff_min)
-
-
+    next_bar()
     time.sleep(1)
+
+
     # all_text = ''
     # time_res = client.get_server_time()
     # for sym in mycoin:
