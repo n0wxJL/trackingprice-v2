@@ -19,7 +19,7 @@ client = Client(api_key, api_secret)
 messenger = Sendline(token_noti)
 
 interval_bef = sv.interval
-interval_tf = '3m' # sv.interval_candle
+interval_tf = '1m' # sv.interval_candle
 mycoin = coin_list.mycoin
 fmt = '%Y-%m-%d %H:%M:%S'
 
@@ -36,6 +36,7 @@ def next_bar():
         print('Timer Candle:',candle_bef_date)
         time_diff_min = ((time_server_date - candle_bef_date).total_seconds()/60)
         print(time_diff_min)
+
 
 while True:
     next_bar()

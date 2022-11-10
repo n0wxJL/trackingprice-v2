@@ -3,4 +3,4 @@ txt_gm = ['Dont trust, Just verify','Not your key, Not your coins','Hold on to y
 
 # kline interval
 interval = '1d'
-interval_candle = '1h'
+interval_candle = '1m'
