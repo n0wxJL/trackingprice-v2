@@ -46,26 +46,31 @@ def bar_time(interval,server_time):
     if not next_bar:
         interval_text = interval_find(interval)
         server_time = dt.datetime.strptime(dt.datetime.strftime(server_time,fmt_min),fmt_min)
+        print(server_time)
         # print(interval_text[0])
         if interval_text[1] == 'm':
             if interval_text[0] == '1':
                 minute = 1 + int(dt.datetime.strftime(server_time,'%M'))
             else:
-                minute = ((60 - int(dt.datetime.strftime(server_time,'%M')))%int(interval_text[0]))+int(dt.datetime.strftime(server_time,'%M'))
+                minute = ((int(dt.datetime.strftime(server_time,'%M'))/int(interval_text[0]))+1)*int(interval_text[0])
         if interval_text[1] == 'h':
             minute = int(interval_text[0]) * 60
         if interval_text[1] == 'd':
             minute = int(interval_text[0]) * 1440
-        # print(minute)
+        # print('minute',minute)
         time_set_start = server_time - dt.timedelta(minutes=int(dt.datetime.strftime(server_time,'%M')))
         # print('time_set_start',time_set_start)
         server_time_next = time_set_start + dt.timedelta(minutes=minute)
+        # print('servertimenext',server_time_next)
         sec = dt.datetime.strptime(dt.datetime.strftime(server_time_next,fmt_min),fmt_min)
         next_bar.append(sec)
         print('Next Bar',next_bar[0])
-    next_bar_time = next_bar[0]
+    next_bar_time = dt.datetime.strftime(next_bar[0],fmt_min)
+    server_time = dt.datetime.strftime(server_time,fmt_min)
+    # print('servertime',server_time,'Next Bar',next_bar_time)
     if server_time == next_bar_time:
         next_bar.pop(0)
+        print('pop',next_bar)
         return True
     else:
         return False
@@ -75,5 +80,3 @@ def interval_find(interval):
     interval_text = re.sub('\d+', '', interval)
     interval_ret = [interval_time[0],interval_text]
     return interval_ret
-
-# bar_time(sv.interval_candle,time_server())
