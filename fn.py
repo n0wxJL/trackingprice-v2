@@ -43,6 +43,7 @@ def time_next_day():
         return False
 
 def bar_time(interval,server_time):
+    # print(server_time)
     if not next_bar:
         interval_text = interval_find(interval)
         server_time = dt.datetime.strptime(dt.datetime.strftime(server_time,fmt_min),fmt_min)
@@ -52,7 +53,7 @@ def bar_time(interval,server_time):
             if interval_text[0] == '1':
                 minute = 1 + int(dt.datetime.strftime(server_time,'%M'))
             else:
-                minute = ((int(dt.datetime.strftime(server_time,'%M'))/int(interval_text[0]))+1)*int(interval_text[0])
+                minute = ((int(int(dt.datetime.strftime(server_time,'%M'))/int(interval_text[0])))+1)*int(interval_text[0])
         if interval_text[1] == 'h':
             minute = int(interval_text[0]) * 60
         if interval_text[1] == 'd':
