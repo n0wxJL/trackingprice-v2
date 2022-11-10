@@ -44,9 +44,22 @@ def time_next_day():
 
 def bar_time(interval,server_time):
     if not next_bar:
-        minute = interval_find(interval)
+        interval_text = interval_find(interval)
         server_time = dt.datetime.strptime(dt.datetime.strftime(server_time,fmt_min),fmt_min)
-        server_time_next = server_time + dt.timedelta(minutes=minute)
+        # print(interval_text[0])
+        if interval_text[1] == 'm':
+            if interval_text[0] == '1':
+                minute = 1 + int(dt.datetime.strftime(server_time,'%M'))
+            else:
+                minute = ((60 - int(dt.datetime.strftime(server_time,'%M')))%int(interval_text[0]))+int(dt.datetime.strftime(server_time,'%M'))
+        if interval_text[1] == 'h':
+            minute = int(interval_text[0]) * 60
+        if interval_text[1] == 'd':
+            minute = int(interval_text[0]) * 1440
+        # print(minute)
+        time_set_start = server_time - dt.timedelta(minutes=int(dt.datetime.strftime(server_time,'%M')))
+        # print('time_set_start',time_set_start)
+        server_time_next = time_set_start + dt.timedelta(minutes=minute)
         sec = dt.datetime.strptime(dt.datetime.strftime(server_time_next,fmt_min),fmt_min)
         next_bar.append(sec)
         print('Next Bar',next_bar[0])
@@ -58,14 +71,9 @@ def bar_time(interval,server_time):
         return False
 
 def interval_find(interval):
-    # return minute
-    minute = 0
     interval_time = re.findall(r'\d+', interval)
     interval_text = re.sub('\d+', '', interval)
-    if interval_text == 'm':
-        minute = int(interval_time[0])
-    if interval_text == 'h':
-        minute = int(interval_time[0]) * 60
-    if interval_text == 'd':
-        minute = int(interval_time[0]) * 1440
-    return minute
+    interval_ret = [interval_time[0],interval_text]
+    return interval_ret
+
+# bar_time(sv.interval_candle,time_server())
