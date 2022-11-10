@@ -47,7 +47,7 @@ def bar_time(interval,server_time):
     if not next_bar:
         interval_text = interval_find(interval)
         server_time = dt.datetime.strptime(dt.datetime.strftime(server_time,fmt_min),fmt_min)
-        print(server_time)
+        # print(server_time)
         # print(interval_text[0])
         if interval_text[1] == 'm':
             if interval_text[0] == '1':
