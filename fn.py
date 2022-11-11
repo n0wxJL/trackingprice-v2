@@ -50,9 +50,6 @@ def bar_time(interval,server_time):
         # print(server_time)
         # print(interval_text[0])
         if interval_text[1] == 'm':
-            # if interval_text[0] == '1':
-            #     minute = 1 + int(dt.datetime.strftime(server_time,'%M'))
-            # else:
             minute = ((int(int(dt.datetime.strftime(server_time,'%M'))/int(interval_text[0])))+1)*int(interval_text[0])
         if interval_text[1] == 'h':
             minute = int(interval_text[0]) * 60
@@ -68,7 +65,6 @@ def bar_time(interval,server_time):
         print('Next Bar',next_bar[0])
     next_bar_time = dt.datetime.strftime(next_bar[0],fmt_min)
     server_time = dt.datetime.strftime(server_time,fmt_min)
-    # print('servertime',server_time,'Next Bar',next_bar_time)
     if server_time == next_bar_time:
         next_bar.pop(0)
         print('pop',next_bar)
