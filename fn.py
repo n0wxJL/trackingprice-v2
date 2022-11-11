@@ -43,23 +43,17 @@ def time_next_day():
         return False
 
 def bar_time(interval,server_time):
-    # print(server_time)
     if not next_bar:
         interval_text = interval_find(interval)
         server_time = dt.datetime.strptime(dt.datetime.strftime(server_time,fmt_min),fmt_min)
-        # print(server_time)
-        # print(interval_text[0])
         if interval_text[1] == 'm':
             minute = ((int(int(dt.datetime.strftime(server_time,'%M'))/int(interval_text[0])))+1)*int(interval_text[0])
         if interval_text[1] == 'h':
             minute = int(interval_text[0]) * 60
         if interval_text[1] == 'd':
             minute = int(interval_text[0]) * 1440
-        # print('minute',minute)
         time_set_start = server_time - dt.timedelta(minutes=int(dt.datetime.strftime(server_time,'%M')))
-        # print('time_set_start',time_set_start)
         server_time_next = time_set_start + dt.timedelta(minutes=minute)
-        # print('servertimenext',server_time_next)
         sec = dt.datetime.strptime(dt.datetime.strftime(server_time_next,fmt_min),fmt_min)
         next_bar.append(sec)
         print('Next Bar',next_bar[0])
