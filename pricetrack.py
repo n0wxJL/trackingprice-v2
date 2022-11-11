@@ -41,6 +41,6 @@ def pricetrack():
         candle_tf_fl = float(candle_tf[0][4])
         candle_bef_fl = float(candle_bef[0][1])
         candle_chg = ((candle_tf_fl-candle_bef_fl)/candle_bef_fl)*100
-        all_text += '{}: {:,.3f} CHG: {:,.2f}%\n'.format(sym,candle_tf_fl,candle_chg)
+        all_text += '{}: {:,.2f} CHG: {:,.2f}%\n'.format(sym,candle_tf_fl,candle_chg)
     print(all_text)
     messenger.sendtext(all_text)

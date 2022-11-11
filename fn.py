@@ -32,11 +32,11 @@ def time_next_day():
     if not next_day:
         nextd = str(time_servers + dt.timedelta(days=1))
         next_day.append(nextd)
-        print('Add Next Day',next_day[0])
+        print('Next Day',next_day[0])
 
     next_day_date = dt.datetime.strptime(next_day[0],fmt)
     if (next_day_date.day - time_servers.day) == 0:
-        print('New Day :)')
+        # print('New Day :)')
         next_day.pop(0)
         return True
     else:
