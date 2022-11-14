@@ -23,7 +23,7 @@ interval_bef = sv.interval
 interval_tf = sv.interval_candle
 mycoin = coin_list.mycoin
 fmt = '%Y-%m-%d %H:%M:%S'
-
+fmt_min = '%Y-%m-%d %H:%M'
 
 def get_bar_data(symbol,interval,lookback):
         time_servers = fn.time_server()
@@ -33,7 +33,13 @@ def get_bar_data(symbol,interval,lookback):
         frame = frame.iloc[:,:6]
         # print(frame)
         frame.columns = ['Time','Open','High','Low','Close','Volume']
-        print(frame)
+        # print(frame)
+
+
+        interval_text = fn.interval_find(interval)
+        print(interval_text)
+        server_time = dt.datetime.strptime(dt.datetime.strftime(fn.time_server(),fmt_min),fmt_min)
+        print(server_time)
 
 while True:
     get_bar_data(mycoin[0],interval_tf,'5')
