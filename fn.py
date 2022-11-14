@@ -49,9 +49,10 @@ def bar_time(interval,server_time):
         if interval_text[1] == 'm':
             minute = ((int(int(dt.datetime.strftime(server_time,'%M'))/int(interval_text[0])))+1)*int(interval_text[0])
         if interval_text[1] == 'h':
-            minute = int(interval_text[0]) * 60
+            minute = ((int(dt.datetime.strftime(server_time,'%H'))%int(interval_text[0])+1)*60)
         if interval_text[1] == 'd':
             minute = int(interval_text[0]) * 1440
+        # print(minute)
         time_set_start = server_time - dt.timedelta(minutes=int(dt.datetime.strftime(server_time,'%M')))
         server_time_next = time_set_start + dt.timedelta(minutes=minute)
         sec = dt.datetime.strptime(dt.datetime.strftime(server_time_next,fmt_min),fmt_min)
