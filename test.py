@@ -12,6 +12,9 @@ import setup_var as sv
 import re
 import fn
 
+import numpy as np
+import ta
+
 api_key = tkk.api_key
 api_secret = tkk.api_secret
 token_noti = tkk.token_noti
@@ -20,13 +23,13 @@ client = Client(api_key, api_secret)
 messenger = Sendline(token_noti)
 
 interval_bef = sv.interval
-interval_tf = '1h' # sv.interval_candle
+interval_tf = sv.interval_candle
 mycoin = coin_list.mycoin
 fmt = '%Y-%m-%d %H:%M:%S'
 fmt_min = '%Y-%m-%d %H:%M'
 
 def get_bar_data(symbol,interval,lookback):
-        time_servers = fn.time_server()
+        # time_servers = fn.time_server()
         # interval with lookback in a relationship time min hour day
         frame = pd.DataFrame(client.get_historical_klines(symbol,interval,lookback + ' hour ago UTC'))
         # print(frame)
@@ -38,9 +41,14 @@ def get_bar_data(symbol,interval,lookback):
         frame.index = pd.to_datetime(frame.index, unit='ms')
         frame = frame.astype(float)
         # print(frame)
-        print(dt.datetime.now(timezone.utc))
         return frame
 
+
 while True:
-    get_bar_data(mycoin[0],interval_tf,'50')
-    time.sleep(1)
+        df = get_bar_data(mycoin[0],interval_tf,'200')
+        print(df)
+
+        time.sleep(1)
+
+def applytechnical(df):
+        
