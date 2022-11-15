@@ -23,7 +23,7 @@ client = Client(api_key, api_secret)
 messenger = Sendline(token_noti)
 
 interval_bef = sv.interval
-interval_tf = sv.interval_candle
+interval_tf = '1d' # sv.interval_candle
 mycoin = coin_list.mycoin
 fmt = '%Y-%m-%d %H:%M:%S'
 fmt_min = '%Y-%m-%d %H:%M'
@@ -31,7 +31,7 @@ fmt_min = '%Y-%m-%d %H:%M'
 def get_bar_data(symbol,interval,lookback):
         # time_servers = fn.time_server()
         # interval with lookback in a relationship time min hour day
-        frame = pd.DataFrame(client.get_historical_klines(symbol,interval,lookback + ' hour ago UTC'))
+        frame = pd.DataFrame(client.get_historical_klines(symbol,interval,lookback + ' day ago UTC'))
         # print(frame)
         frame = frame.iloc[:,:6]
         # print(frame)
@@ -44,11 +44,22 @@ def get_bar_data(symbol,interval,lookback):
         return frame
 
 
-while True:
-        df = get_bar_data(mycoin[0],interval_tf,'200')
-        print(df)
-
-        time.sleep(1)
-
 def applytechnical(df):
-        
+        df['rsi'] = ta.momentum.rsi(df.Close,window=14)
+
+def getReport():
+        all_text = '\nRSI\n'
+        for sym in mycoin:
+                df = get_bar_data(sym,interval_tf,'30')
+                applytechnical(df)
+                all_text = all_text + '{}: {:,.2f}\n'.format(sym,df['rsi'][-2])
+        print(all_text)
+        messenger.sendtext(all_text)
+
+# while True:
+#         df = get_bar_data(mycoin[0],interval_tf,'30')
+#         # print(df)
+#         applytechnical(df)
+#         print(df['rsi'][-2])
+#         time.sleep(1)
+
