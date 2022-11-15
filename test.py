@@ -5,7 +5,7 @@ from songline import Sendline
 import time
 import pandas as pd
 import datetime as dt
-from datetime import datetime
+from datetime import datetime,timezone
 import token_api as tkk
 import coin_list
 import setup_var as sv
@@ -38,6 +38,7 @@ def get_bar_data(symbol,interval,lookback):
         frame.index = pd.to_datetime(frame.index, unit='ms')
         frame = frame.astype(float)
         # print(frame)
+        print(dt.datetime.now(timezone.utc))
         return frame
 
 while True:
