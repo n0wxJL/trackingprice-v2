@@ -43,17 +43,22 @@ def time_next_day():
         return False
 
 def bar_time(interval,server_time):
+    start_time = dt.datetime.combine(server_time, dt.time.min) + dt.timedelta(hours=7)
     if not next_bar:
         interval_text = interval_find(interval)
         server_time = dt.datetime.strptime(dt.datetime.strftime(server_time,fmt_min),fmt_min)
         if interval_text[1] == 'm':
             minute = ((int(int(dt.datetime.strftime(server_time,'%M'))/int(interval_text[0])))+1)*int(interval_text[0])
+            round_bar_next = int(dt.datetime.strftime(server_time - dt.timedelta(hours=int(dt.datetime.strftime(start_time,'%H'))),'%H'))
+            minute = minute + (round_bar_next*60)
         if interval_text[1] == 'h':
-            minute = ((int(dt.datetime.strftime(server_time,'%H'))%int(interval_text[0])+1)*60)
+            round_bar_next = int(dt.datetime.strftime(server_time - dt.timedelta(hours=int(dt.datetime.strftime(start_time,'%H'))),'%H'))
+            round_bar_next = int(((round_bar_next/int(interval_text[0]))+1))*int(interval_text[0])
+            minute = round_bar_next*60
         if interval_text[1] == 'd':
             minute = int(interval_text[0]) * 1440
         # print(minute)
-        time_set_start = server_time - dt.timedelta(minutes=int(dt.datetime.strftime(server_time,'%M')))
+        time_set_start = start_time
         server_time_next = time_set_start + dt.timedelta(minutes=minute)
         sec = dt.datetime.strptime(dt.datetime.strftime(server_time_next,fmt_min),fmt_min)
         next_bar.append(sec)

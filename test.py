@@ -28,18 +28,21 @@ fmt_min = '%Y-%m-%d %H:%M'
 def get_bar_data(symbol,interval,lookback):
         time_servers = fn.time_server()
         # interval with lookback in a relationship time min hour day
-        frame = pd.DataFrame(client.get_historical_klines(symbol,interval,lookback + ' hour ago UTC'))
+        # frame = pd.DataFrame(client.get_historical_klines(symbol,interval,lookback + ' hour ago UTC'))
         # print(frame)
-        frame = frame.iloc[:,:6]
+        # frame = frame.iloc[:,:6]
         # print(frame)
-        frame.columns = ['Time','Open','High','Low','Close','Volume']
+        # frame.columns = ['Time','Open','High','Low','Close','Volume']
         # print(frame)
 
-
-        interval_text = fn.interval_find(interval)
-        print(interval_text)
+        # interval_text = fn.interval_find(interval)
+        # print(interval_text)
         server_time = dt.datetime.strptime(dt.datetime.strftime(fn.time_server(),fmt_min),fmt_min)
-        print(server_time)
+        print('server time',server_time)
+        start_time = dt.datetime.combine(server_time, dt.time.min) + dt.timedelta(hours=7)
+        print('start time of day ',start_time)
+        round_bar = int(server_time - start_time)
+        print('diff time',round_bar)
 
 while True:
     get_bar_data(mycoin[0],interval_tf,'5')
