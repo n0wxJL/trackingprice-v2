@@ -6,15 +6,21 @@ import time
 import datetime as dt
 from datetime import datetime
 import token_api as tkk
-# import coin_list
+import pandas as pd
+import coin_list
 import setup_var as sv
 import re
+import ta
 
 api_key = tkk.api_key
 api_secret = tkk.api_secret
 token_noti = tkk.token_noti
-
 client = Client(api_key, api_secret)
+
+messenger = Sendline(token_noti)
+
+mycoin = coin_list.mycoin
+lookback = '300'
 
 next_day = []
 next_bar = []
@@ -77,3 +83,27 @@ def interval_find(interval):
     interval_text = re.sub('\d+', '', interval)
     interval_ret = [interval_time[0],interval_text]
     return interval_ret
+
+def get_report():
+    all_text = '\n--Report--\n'
+    for sym in mycoin:
+        df = get_bar_data(sym,sv.interval,lookback)
+        applytechnical(df)
+        # print(df)
+        all_text = all_text + '{}\nRSI: {:,.2f}\nMACD: {:,.2f}\n------\n'.format(sym,df['rsi'][-2],df['macd'][-2])
+    print(all_text)
+    messenger.sendtext(all_text)
+
+def get_bar_data(sym,interval,lookback):
+    frame = pd.DataFrame(client.get_historical_klines(sym,interval,lookback + ' day ago UTC'))
+    frame = frame.iloc[:,:6]
+    frame.columns = ['Time','Open','High','Low','Close','Volume']
+    frame = frame.set_index('Time')
+    frame.index = pd.to_datetime(frame.index, unit='ms')
+    frame = frame.astype(float)
+    return frame
+
+def applytechnical(df):
+    df['rsi'] = ta.momentum.rsi(df.Close,window=14)
+    df['macd'] = ta.trend.macd_diff(df.Close)
+    df.dropna(inplace=True)

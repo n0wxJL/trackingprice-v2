@@ -10,7 +10,7 @@ def main():
     while True:
         if fn.time_next_day():
             gmwhale.gmwhale()
-            test.getReport()
+            fn.get_report()
         if fn.bar_time(sv.interval_candle,fn.time_server()):
             pricetrack.pricetrack()
         time.sleep(1)
