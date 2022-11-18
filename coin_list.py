@@ -1,1 +1,1 @@
-mycoin = ['BTCUSDT','ETHUSDT']
+mycoin = ['BTCUSDT','BTCBUSD','ETHUSDT','ETHBUSD']
