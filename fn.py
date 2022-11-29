@@ -90,7 +90,8 @@ def get_report():
         df = get_bar_data(sym,sv.interval,lookback)
         applytechnical(df)
         # print(df)
-        all_text = all_text + '{}\nRSI: {:,.2f}\nMACD: {:,.2f}\n------\n'.format(sym,df['rsi'][-2],df['macd'][-2])
+        ema_action = (float(df['ema12'][-2]) - float(df['ema26'][-2]))
+        all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n------\n'.format(sym,df['rsi'][-2],df['macd'][-2],ema_action)
     print(all_text)
     messenger.sendtext(all_text)
 
@@ -106,4 +107,6 @@ def get_bar_data(sym,interval,lookback):
 def applytechnical(df):
     df['rsi'] = ta.momentum.rsi(df.Close,window=14)
     df['macd'] = ta.trend.macd_diff(df.Close)
+    df['ema12'] = ta.trend.ema_indicator(df.Close,window=12)
+    df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
     df.dropna(inplace=True)
