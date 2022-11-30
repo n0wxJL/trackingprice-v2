@@ -8,6 +8,7 @@ import test
 
 def main():
     while True:
+        pricetrack.pricetrack()
         if fn.time_next_day():
             gmwhale.gmwhale()
             fn.get_report()
