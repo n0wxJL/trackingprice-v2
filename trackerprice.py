@@ -5,12 +5,14 @@ import pricetrack
 import fn
 import setup_var as sv
 import test
+import fn_stock
 
 def main():
     while True:
         if fn.time_next_day():
             gmwhale.gmwhale()
             fn.get_report()
+            fn_stock.getrate()
         if fn.bar_time(sv.interval_candle,fn.time_server()):
             pricetrack.pricetrack()
         time.sleep(1)
