@@ -4,3 +4,6 @@ txt_gm = ['Dont trust, Just verify','Not your key, Not your coins','Hold on to y
 # kline interval
 interval = '1d'
 interval_candle = '4h'
+
+# for exchange rate url
+url = 'https://th.investing.com/currencies/usd-thb'

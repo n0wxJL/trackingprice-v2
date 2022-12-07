@@ -63,3 +63,19 @@ def getReport():
 #         print(df['rsi'][-2])
 #         time.sleep(1)
 
+from urllib.request import Request,urlopen as req
+from bs4 import BeautifulSoup as soup
+
+url = 'https://th.investing.com/currencies/usd-thb'
+reqs = Request(url,headers={'User-Agent': 'Mozilla/5.0'})
+
+webopen = req(reqs)
+page_html = webopen.read()
+webopen.close()
+
+# print(page_html)
+data = soup(page_html,'html.parser')
+# print(data)
+
+temp = data.findAll('span',{'data-test':'instrument-price-last'})
+print(temp[0].text)

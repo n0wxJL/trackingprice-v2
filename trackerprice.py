@@ -12,7 +12,7 @@ def main():
         if fn.time_next_day():
             gmwhale.gmwhale()
             fn.get_report()
-            fn_stock.getrate()
+            fn_stock.get_exchangerate()
         if fn.bar_time(sv.interval_candle,fn.time_server()):
             pricetrack.pricetrack()
         time.sleep(1)
