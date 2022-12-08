@@ -21,4 +21,4 @@ def gmwhale():
         messenger.sendtext(value_text)
 
 def callQoute():
-    return sv.txt_gm[random.randrange(len(sv.txt_gm))]
+        return sv.txt_gm[random.randrange(len(sv.txt_gm))]
