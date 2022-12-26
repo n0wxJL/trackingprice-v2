@@ -4,13 +4,9 @@ from bs4 import BeautifulSoup as soup
 from urllib.request import Request,urlopen as req
 from songline import Sendline
 import token_api as tkk
-
-
 import coin_list
 import yfinance as yf
 
-# https://pypi.org/project/forex-python/ #
-# c = CurrencyRates()
 token_noti = tkk.token_noti
 messenger = Sendline(token_noti)
 
