@@ -13,6 +13,7 @@ def main():
             gmwhale.gmwhale()
             fn.get_report()
             fn_stock.get_exchangerate()
+            fn_stock.get_stock_price()
         if fn.bar_time(sv.interval_candle,fn.time_server()):
             pricetrack.pricetrack()
         time.sleep(1)

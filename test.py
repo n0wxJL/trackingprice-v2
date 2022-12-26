@@ -5,7 +5,7 @@ from songline import Sendline
 import time
 import pandas as pd
 import datetime as dt
-from datetime import datetime,timezone
+from datetime import datetime,timezone,date
 import token_api as tkk
 import coin_list
 import setup_var as sv
@@ -28,54 +28,53 @@ mycoin = coin_list.mycoin
 fmt = '%Y-%m-%d %H:%M:%S'
 fmt_min = '%Y-%m-%d %H:%M'
 
-def get_bar_data(symbol,interval,lookback):
-        # time_servers = fn.time_server()
-        # interval with lookback in a relationship time min hour day
-        frame = pd.DataFrame(client.get_historical_klines(symbol,interval,lookback + ' day ago UTC'))
-        # print(frame)
-        frame = frame.iloc[:,:6]
-        # print(frame)
-        frame.columns = ['Time','Open','High','Low','Close','Volume']
-        # print(frame)
-        frame = frame.set_index('Time')
-        frame.index = pd.to_datetime(frame.index, unit='ms')
-        frame = frame.astype(float)
-        # print(frame)
-        return frame
+
+# import requests
+# from bs4 import BeautifulSoup
+# url = 'https://finance.yahoo.com/quote/TSLA'
+# headers = {
+#     'User-agent': 'Mozilla/5.0',
+# }
+# r= requests.get(url, headers=headers)
+# print(r.status_code)
+# soup = BeautifulSoup(r.text, 'html.parser')
+# price = soup.find("fin-streamer", {"class":['Fw(b)', 'Fz(36px)', 'Mb(-4px)', 'D(ib)'] })
+# print(price.contents)
 
 
-def applytechnical(df):
-        df['rsi'] = ta.momentum.rsi(df.Close,window=14)
+# import yfinance as yf
 
-def getReport():
-        all_text = '\nRSI\n'
-        for sym in mycoin:
-                df = get_bar_data(sym,interval_tf,'30')
-                applytechnical(df)
-                all_text = all_text + '{}: {:,.2f}\n'.format(sym,df['rsi'][-2])
-        print(all_text)
-        messenger.sendtext(all_text)
+# tsla = yf.Ticker('TSLA')
+# # print(tsla.history())
+# # print(date.today() - dt.timedelta(days=1))
+# # print(tsla.history(start = date.today() - dt.timedelta(days=1), end = date.today()+dt.timedelta(days=1)))
 
-# while True:
-#         df = get_bar_data(mycoin[0],interval_tf,'30')
-#         # print(df)
-#         applytechnical(df)
-#         print(df['rsi'][-2])
-#         time.sleep(1)
+# frame = pd.DataFrame(tsla.history()).reset_index()
+# # print(frame)
+# frame = frame.iloc[:,:6]
+# print(frame)
+# frame.columns = ['Date','Open','High','Low','Close','Volume']
+# print(frame)
+# frame = frame.set_index('Date')
+# print(frame)
+# frame.index = pd.to_datetime(frame.index, unit='ms')
+# frame = frame.astype(float)
 
-# from urllib.request import Request,urlopen as req
-# from bs4 import BeautifulSoup as soup
+# frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
+# # print(frame.sort_values(by='Date',ascending=False))
+# print(frame['Date'][20])
 
-# url = 'https://th.investing.com/currencies/usd-thb'
-# reqs = Request(url,headers={'User-Agent': 'Mozilla/5.0'})
 
-# webopen = req(reqs)
-# page_html = webopen.read()
-# webopen.close()
-
-# # print(page_html)
-# data = soup(page_html,'html.parser')
-# # print(data)
-
-# temp = data.findAll('span',{'data-test':'instrument-price-last'})
-# print(temp[0].text)
+# def get_stock_price():
+#     alltext = '\n--Stocks--\n'
+#     for sym in coin_list.stockd:
+#         stk_pd = yf.Ticker(sym)
+#         frame = pd.DataFrame(stk_pd.history()).reset_index()
+#         frame = frame.iloc[:,:6]
+#         frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
+#         # frame.sort_values(by='Date',ascending=True)
+#         stk_close = frame['Close'][20]
+#         stk_chg = ((stk_close - frame['Close'][19])/frame['Close'][19])*100
+#         alltext += '{}: {:,.2f} CHG: {:,.2f}%\n'.format(sym,stk_close,stk_chg)
+#     print(alltext)
+#     messenger.sendtext(alltext)

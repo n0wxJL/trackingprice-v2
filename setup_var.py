@@ -7,3 +7,4 @@ interval_candle = '4h'
 
 # for exchange rate url
 url = 'https://th.investing.com/currencies/usd-thb'
+urlstk = 'https://finance.yahoo.com/quote/'
