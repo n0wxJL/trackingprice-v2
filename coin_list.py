@@ -1,3 +1,3 @@
 mycoin = ['BTCUSDT','BTCBUSD','ETHUSDT','ETHBUSD']
 
-stockd = ['TSLA','AAPL','GOOG']
+stockd = ['TSLA','AAPL','GOOG','BDMS.BK','AMA.BK','VL.BK','RSP.BK','CPALL.BK','LH.BK']

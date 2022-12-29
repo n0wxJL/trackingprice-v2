@@ -13,7 +13,7 @@ import re
 import fn
 
 import numpy as np
-import ta
+# import ta
 
 api_key = tkk.api_key
 api_secret = tkk.api_secret
@@ -42,7 +42,7 @@ fmt_min = '%Y-%m-%d %H:%M'
 # print(price.contents)
 
 
-# import yfinance as yf
+import yfinance as yf
 
 # tsla = yf.Ticker('TSLA')
 # # print(tsla.history())
@@ -78,3 +78,6 @@ fmt_min = '%Y-%m-%d %H:%M'
 #         alltext += '{}: {:,.2f} CHG: {:,.2f}%\n'.format(sym,stk_close,stk_chg)
 #     print(alltext)
 #     messenger.sendtext(alltext)
+
+# get_stock_price()
+
