@@ -1,2 +1,2 @@
 worker: python trackerprice.py
-$ heroku ps:scale web=1
+web:gunicorn PHYSICS_COMMUNITY.wsgi
