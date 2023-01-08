@@ -90,8 +90,8 @@ def get_report():
         df = get_bar_data(sym,sv.interval,lookback)
         applytechnical(df)
         # print(df)
-        ema_action = (float(df['ema12'][-2]) - float(df['ema26'][-2]))
-        all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n------\n'.format(sym,df['rsi'][-2],df['macd'][-2],ema_action)
+        take_action = get_action_indicator(df)
+        all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n{}------\n'.format(sym,df['rsi'][-2],df['macd'][-2],df['cdc'][-2],take_action)
     print(all_text)
     messenger.sendtext(all_text)
 
@@ -109,4 +109,10 @@ def applytechnical(df):
     df['macd'] = ta.trend.macd_diff(df.Close)
     df['ema12'] = ta.trend.ema_indicator(df.Close,window=12)
     df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
+    df['cdc'] = ta.trend.ema_indicator(df.Close,window=12) - ta.trend.ema_indicator(df.Close,window=26)
     df.dropna(inplace=True)
+
+def get_action_indicator(df):
+    if (float(df['cdc'][-2])>0 and float(df['cdc'][-3]<0)):
+        return print('CDC_BUY_NEXT_BAR')
+    return

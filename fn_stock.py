@@ -32,6 +32,6 @@ def get_stock_price():
         # frame.sort_values(by='Date',ascending=True)
         stk_close = frame['Close'][20]
         stk_chg = ((stk_close - frame['Close'][19])/frame['Close'][19])*100
-        alltext += '{}: {:,.2f} CHG: {:,.2f}%\n-\n'.format(sym,stk_close,stk_chg)
+        alltext += '{}: {:,.2f} CHG: {:,.2f}%\n.\n'.format(sym,stk_close,stk_chg)
     print(alltext)
     messenger.sendtext(alltext)

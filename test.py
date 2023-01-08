@@ -75,9 +75,27 @@ import yfinance as yf
 #         # frame.sort_values(by='Date',ascending=True)
 #         stk_close = frame['Close'][20]
 #         stk_chg = ((stk_close - frame['Close'][19])/frame['Close'][19])*100
-#         alltext += '{}: {:,.2f} CHG: {:,.2f}%\n'.format(sym,stk_close,stk_chg)
+#         alltext += '{}: {:,.2f} CHG: {:,.2f}%\n.\n'.format(sym,stk_close,stk_chg)
 #     print(alltext)
-#     messenger.sendtext(alltext)
+#     # messenger.sendtext(alltext)
 
 # get_stock_price()
 
+# lookback = '300'
+# def get_report():
+#     all_text = '\n--Report--\n'
+#     for sym in mycoin:
+#         df = fn.get_bar_data(sym,sv.interval,lookback)
+#         fn.applytechnical(df)
+#         # print(df)
+#         take_action = get_action_indicator(df)
+#         all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n{}------\n'.format(sym,df['rsi'][-2],df['macd'][-2],df['cdc'][-2],take_action)
+#     print(all_text)
+#     # messenger.sendtext(all_text)
+
+# def get_action_indicator(df):
+#     if (float(df['cdc'][-2])>0 and float(df['cdc'][-3]<0)):
+#         return print('CDC_BUY_NEXT_BAR')
+#     return
+
+# get_report()
