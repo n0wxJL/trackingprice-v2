@@ -115,4 +115,6 @@ def applytechnical(df):
 def get_action_indicator(df):
     if (float(df['cdc'][-2])>0 and float(df['cdc'][-3]<0)):
         return print('CDC_BUY')
+    elif (float(df['cdc'][-2])<0 and float(df['cdc'][-3]>0)):
+        return print('CDC_SELL')
     return ''
