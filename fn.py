@@ -91,7 +91,7 @@ def get_report():
         applytechnical(df)
         # print(df)
         take_action = get_action_indicator(df)
-        all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n{}------\n'.format(sym,df['rsi'][-2],df['macd'][-2],df['cdc'][-2],take_action)
+        all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n{}\n------\n'.format(sym,df['rsi'][-2],df['macd'][-2],df['cdc'][-2],take_action)
     print(all_text)
     messenger.sendtext(all_text)
 
@@ -114,5 +114,5 @@ def applytechnical(df):
 
 def get_action_indicator(df):
     if (float(df['cdc'][-2])>0 and float(df['cdc'][-3]<0)):
-        return print('CDC_BUY_NEXT_BAR')
-    return
+        return print('CDC_BUY')
+    return ''
