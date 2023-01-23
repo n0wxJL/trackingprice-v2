@@ -114,8 +114,16 @@ def applytechnical(df):
     df.dropna(inplace=True)
 
 def get_action_indicator(df):
+    print('get_action_indicator()')
+    alltext =''
     if (float(df['cdc'][-2])>0 and float(df['cdc'][-3]<0)):
-        return '=>CDC_BUY\n'
+        alltext = alltext + '=>CDC_BUY\n'
     elif (float(df['cdc'][-2])<0 and float(df['cdc'][-3]>0)):
-        return '=>CDC_SELL\n'
-    return ''
+        alltext = alltext +  '=>CDC_SELL\n'
+    
+    if (float(df['rsi'][-1])>70):
+        alltext = alltext + '=>RSI_OVERBOUGHT\n'
+    elif(float(df['rsi'][-1])<30):
+        alltext = alltext + '=>RSI_OVERSOLD\n'
+    
+    return alltext

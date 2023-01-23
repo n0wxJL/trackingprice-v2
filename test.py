@@ -64,19 +64,31 @@ fmt_min = '%Y-%m-%d %H:%M'
 
 # lookback = '300'
 # def get_report():
+#     print('get_report()')
 #     all_text = '\n--Report--\n'
 #     for sym in mycoin:
 #         df = fn.get_bar_data(sym,sv.interval,lookback)
 #         fn.applytechnical(df)
 #         # print(df)
 #         take_action = get_action_indicator(df)
-#         all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n{}------\n'.format(sym,df['rsi'][-2],df['macd'][-2],df['cdc'][-2],take_action)
+#         all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n{}-----------\n'.format(sym,df['rsi'][-2],df['macd'][-2],df['cdc'][-2],take_action)
 #     print(all_text)
-#     # messenger.sendtext(all_text)
+#     messenger.sendtext(all_text)
 
 # def get_action_indicator(df):
+#     print('get_action_indicator()')
+#     print(df)
+#     alltext =''
 #     if (float(df['cdc'][-2])>0 and float(df['cdc'][-3]<0)):
-#         return print('CDC_BUY_NEXT_BAR')
-#     return
+#         alltext = alltext + '=>CDC_BUY\n'
+#     elif (float(df['cdc'][-2])<0 and float(df['cdc'][-3]>0)):
+#         alltext = alltext +  '=>CDC_SELL\n'
+    
+#     if (float(df['rsi'][-1])>70):
+#         alltext = alltext + '=>RSI_OVERBOUGHT\n'
+#     elif(float(df['rsi'][-1])<30):
+#         alltext = alltext + '=>RSI_OVERSOLD\n'
+    
+#     return alltext
 
 # get_report()
