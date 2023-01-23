@@ -11,6 +11,7 @@ import coin_list
 import setup_var as sv
 import re
 import fn
+import fn_stock
 
 import numpy as np
 # import ta
@@ -42,12 +43,12 @@ fmt_min = '%Y-%m-%d %H:%M'
 # print(price.contents)
 
 
-import yfinance as yf
+# import yfinance as yf
 
 # tsla = yf.Ticker('TSLA')
-# # print(tsla.history())
-# # print(date.today() - dt.timedelta(days=1))
-# # print(tsla.history(start = date.today() - dt.timedelta(days=1), end = date.today()+dt.timedelta(days=1)))
+# print(tsla.history())
+# print(date.today() - dt.timedelta(days=1))
+# print(tsla.history(start = date.today() - dt.timedelta(days=1), end = date.today()+dt.timedelta(days=1)))
 
 # frame = pd.DataFrame(tsla.history()).reset_index()
 # # print(frame)
@@ -63,23 +64,6 @@ import yfinance as yf
 # frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
 # # print(frame.sort_values(by='Date',ascending=False))
 # print(frame['Date'][20])
-
-
-# def get_stock_price():
-#     alltext = '\n--Stocks--\n'
-#     for sym in coin_list.stockd:
-#         stk_pd = yf.Ticker(sym)
-#         frame = pd.DataFrame(stk_pd.history()).reset_index()
-#         frame = frame.iloc[:,:6]
-#         frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-#         # frame.sort_values(by='Date',ascending=True)
-#         stk_close = frame['Close'][20]
-#         stk_chg = ((stk_close - frame['Close'][19])/frame['Close'][19])*100
-#         alltext += '{}: {:,.2f} CHG: {:,.2f}%\n.\n'.format(sym,stk_close,stk_chg)
-#     print(alltext)
-#     # messenger.sendtext(alltext)
-
-# get_stock_price()
 
 # lookback = '300'
 # def get_report():

@@ -85,6 +85,7 @@ def interval_find(interval):
     return interval_ret
 
 def get_report():
+    print('get_report()')
     all_text = '\n--Report--\n'
     for sym in mycoin:
         df = get_bar_data(sym,sv.interval,lookback)

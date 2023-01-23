@@ -11,6 +11,7 @@ token_noti = tkk.token_noti
 messenger = Sendline(token_noti)
 
 def get_exchangerate():
+    print('get_exchangerate()')
     text = ''
     reqs = Request(url=sv.url,headers={'User-Agent': 'Mozilla/5.0'})
     webopen = req(reqs)
@@ -23,15 +24,15 @@ def get_exchangerate():
     messenger.sendtext(text)
 
 def get_stock_price():
+    print('get_stock_price()')
     alltext = '\n--Stocks--\n'
     for sym in coin_list.stockd:
         stk_pd = yf.Ticker(sym)
         frame = pd.DataFrame(stk_pd.history()).reset_index()
         frame = frame.iloc[:,:6]
         frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-        # frame.sort_values(by='Date',ascending=True)
-        stk_close = frame['Close'][20]
-        stk_chg = ((stk_close - frame['Close'][19])/frame['Close'][19])*100
-        alltext += '{}: {:,.2f} CHG: {:,.2f}%\n.\n'.format(sym,stk_close,stk_chg)
+        frame.sort_values(by='Date',ascending=True,inplace=True)
+        stk_chg = ((frame['Close'][20] - frame['Close'][19])/frame['Close'][19])*100
+        alltext += '{}: {:,.2f} CHG: {:,.2f}%\n.\n'.format(sym,frame['Close'][20],stk_chg)
     print(alltext)
     messenger.sendtext(alltext)
