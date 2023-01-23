@@ -47,9 +47,6 @@ fmt_min = '%Y-%m-%d %H:%M'
 
 # tsla = yf.Ticker('TSLA')
 # print(tsla.history())
-# print(date.today() - dt.timedelta(days=1))
-# print(tsla.history(start = date.today() - dt.timedelta(days=1), end = date.today()+dt.timedelta(days=1)))
-
 # frame = pd.DataFrame(tsla.history()).reset_index()
 # # print(frame)
 # frame = frame.iloc[:,:6]
