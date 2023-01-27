@@ -127,3 +127,8 @@ def get_action_indicator(df):
         alltext = alltext + '=>RSI_OVERSOLD\n'
     
     return alltext
+
+
+def delay(sec):
+    time.sleep(sec)
+
