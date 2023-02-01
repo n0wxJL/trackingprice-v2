@@ -86,7 +86,7 @@ def interval_find(interval):
 
 def get_report():
     print('get_report()')
-    all_text = '\n--Report--\n'
+    all_text = '\n--Report Crypto--\n'
     for sym in mycoin:
         df = get_bar_data(sym,sv.interval,lookback)
         applytechnical(df)
