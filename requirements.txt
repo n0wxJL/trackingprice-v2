@@ -5,4 +5,4 @@ songline==0.0.1
 ta==0.10.2
 forex-python==1.8
 beautifulsoup4==4.11.1
-yfinance==0.2.3
+yfinance==0.2.9
