@@ -58,21 +58,21 @@ import yfinance as yf
 # frame.index = pd.to_datetime(frame.index, unit='ms')
 # frame = frame.astype(float)
 
-# def get_stock_price():
-#     print('get_stock_price()')
-#     alltext = '\n--Stocks--\n'
-#     for sym in coin_list.stockd:
-#         stk_pd = yf.Ticker(sym)
-#         print(stk_pd)
+def get_stock_price():
+    print('get_stock_price()')
+    alltext = '\n--Stocks--\n'
+    for sym in coin_list.stockd:
+        stk_pd = yf.Ticker(sym)
+        print(stk_pd)
 
-#         frame = pd.DataFrame(stk_pd.history()).reset_index()
-#         frame = frame.iloc[:,:6]
-#         frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-#         frame.sort_values(by='Date',ascending=True,inplace=True)
-#         stk_chg = ((frame['Close'][20] - frame['Close'][19])/frame['Close'][19])*100
-#         alltext += '{}: {:,.2f} CHG: {:,.2f}%\n.\n'.format(sym,frame['Close'][20],stk_chg)
-#     print(alltext)
-#     # messenger.sendtext(alltext)
+        frame = pd.DataFrame(stk_pd.history()).reset_index()
+        frame = frame.iloc[:,:6]
+        frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
+        frame.sort_values(by='Date',ascending=True,inplace=True)
+        stk_chg = ((frame['Close'][20] - frame['Close'][19])/frame['Close'][19])*100
+        alltext += '{}: {:,.2f} CHG: {:,.2f}%\n.\n'.format(sym,frame['Close'][20],stk_chg)
+    print(alltext)
+    # messenger.sendtext(alltext)
 
 
-# get_stock_price()
+get_stock_price()
