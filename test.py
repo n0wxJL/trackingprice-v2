@@ -81,25 +81,39 @@ fmt_min = '%Y-%m-%d %H:%M'
 #     for sym in mycoin:
 #         print(sym)
 #         stk_pd = yf.Ticker(sym)
-#         frame = pd.DataFrame(stk_pd.history()).reset_index()
+#         frame = pd.DataFrame(stk_pd.history(period="6mo")).reset_index()
 #         frame = frame.iloc[:,:6]
 #         frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
 #         frame.sort_values(by='Date',ascending=True,inplace=True)
-#         print(frame)
-#         applytechnical(frame)
-#         print(frame)
-#     #     take_action = get_action_indicator(df)
-#     #     all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n{}-----------\n'.format(sym,df['rsi'][-2],df['macd'][-2],df['cdc'][-2],take_action)
-#     # print(all_text)
-#     # messenger.sendtext(all_text)
+#         df = frame
+#         applytechnical(df)
+#         take_action = get_action_indicator(df)
+#         print(df)
+#         all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n{}-----------\n'.format(sym,df['rsi'].iloc[-2],df['macd'].iloc[-2],df['cdc'].iloc[-2],take_action)
+#     print(all_text)
+#     messenger.sendtext(all_text)
 
 # def applytechnical(df):
 #     df['rsi'] = ta.momentum.rsi(df.Close,window=14)
-#     # df['macd'] = ta.trend.macd_diff(df.Close)
+#     df['macd'] = ta.trend.macd_diff(df.Close)
 #     df['ema12'] = ta.trend.ema_indicator(df.Close,window=12)
-#     # df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
-#     # df['cdc'] = ta.trend.ema_indicator(df.Close,window=12) - ta.trend.ema_indicator(df.Close,window=26)
+#     df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
+#     df['cdc'] = ta.trend.ema_indicator(df.Close,window=12) - ta.trend.ema_indicator(df.Close,window=26)
 #     df.dropna(inplace=True)
 
+# def get_action_indicator(df):
+#     print('get_action_indicator()')
+#     alltext=''
+#     if (float(df['cdc'].iloc[-2])>0 and float(df['cdc'].iloc[-3]<0)):
+#         alltext = alltext + '=>CDC_BUY\n'
+#     elif (float(df['cdc'].iloc[-2])<0 and float(df['cdc'].iloc[-3]>0)):
+#         alltext = alltext +  '=>CDC_SELL\n'
+    
+#     if (float(df['rsi'].iloc[-2])>70):
+#         alltext = alltext + '=>RSI_OVERBOUGHT\n'
+#     elif(float(df['rsi'].iloc[-2])<30):
+#         alltext = alltext + '=>RSI_OVERSOLD\n'
+    
+#     return alltext
 
 # get_report_stock()

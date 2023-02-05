@@ -17,7 +17,9 @@ def main():
             fn_stock.get_exchangerate()
             fn.delay(1)
             fn_stock.get_stock_price()
-            fn.delay(1)
+            fn.delay(2)
+            fn_stock.get_report_stock()
+            fn.delay(2)
         if fn.bar_time(sv.interval_candle,fn.time_server()):
             pricetrack.pricetrack()
         time.sleep(1)
