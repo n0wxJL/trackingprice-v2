@@ -11,11 +11,11 @@ def main():
     while True:
         if fn.time_next_day():
             gmwhale.gmwhale()
-            fn.delay(1)
+            fn.delay(2)
             fn.get_report()
-            fn.delay(1)
+            fn.delay(2)
             fn_stock.get_exchangerate()
-            fn.delay(1)
+            fn.delay(2)
             fn_stock.get_stock_price()
             fn.delay(2)
             fn_stock.get_report_stock()
