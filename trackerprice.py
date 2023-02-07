@@ -4,7 +4,6 @@ import gmwhale
 import pricetrack
 import fn
 import setup_var as sv
-import test
 import fn_stock
 
 def main():

@@ -6,7 +6,6 @@ from songline import Sendline
 import token_api as tkk
 import coin_list
 import yfinance as yf
-import fn
 import ta
 
 token_noti = tkk.token_noti
@@ -30,7 +29,7 @@ def get_stock_price():
     alltext = '\n--Stocks--\n'
     for sym in coin_list.stockd:
         stk_pd = yf.Ticker(sym)
-        frame = pd.DataFrame(stk_pd.history()).reset_index()
+        frame = pd.DataFrame(stk_pd.history(period='6mo')).reset_index()
         frame = frame.iloc[:,:6]
         frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
         frame.sort_values(by='Date',ascending=True,inplace=True)
