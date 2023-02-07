@@ -7,6 +7,7 @@ import token_api as tkk
 import coin_list
 import yfinance as yf
 import ta
+import fn
 
 token_noti = tkk.token_noti
 messenger = Sendline(token_noti)
@@ -44,6 +45,7 @@ def get_report_stock():
     for sym in coin_list.stockd:
         print(sym)
         stk_pd = yf.Ticker(sym)
+        cur_sym = fn.cur_symbol(stk_pd.info['financialCurrency'])
         frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
         frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
         frame = frame.iloc[:,:6]
@@ -57,8 +59,14 @@ def get_report_stock():
         applytechnical(frame2)
         for i in range(0,len(frame2.index)):
             df['week18'].iloc[-1*i] = frame2['week18'].iloc[-1*i]
+        pr_chg = ((df['Close'].iloc[-2] - df['Close'].iloc[-3])/df['Close'].iloc[-3])*100
+        close_chg = df['Close'].iloc[-2]
+        rsi_chg = df['rsi'].iloc[-2]
+        macd_chg = df['macd'].iloc[-2]
+        cdc_chg = df['cdc'].iloc[-2]
+        week18_chg = df['week18'].iloc[-1]
         take_action = get_action_indicator(df)
-        all_text = all_text + '{}\n  RSI: {:,.2f}\n  MACD: {:,.2f}\n  CDC: {:,.2f}\n  WEEK18: {:,.2f}\n{}-----------\n'.format(sym,df['rsi'].iloc[-2],df['macd'].iloc[-2],df['cdc'].iloc[-2],df['week18'].iloc[-1],take_action)
+        all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n▸WEEK18: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,week18_chg,take_action)
     print(all_text)
     messenger.sendtext(all_text)
 
@@ -75,15 +83,15 @@ def get_action_indicator(df):
     print('get_action_indicator()')
     alltext=''
     if (float(df['cdc'].iloc[-2])>0 and float(df['cdc'].iloc[-3]<0)):
-        alltext = alltext + '=>CDC_BUY\n'
+        alltext = alltext + '▲CDC_BUY\n'
     elif (float(df['cdc'].iloc[-2])<0 and float(df['cdc'].iloc[-3]>0)):
-        alltext = alltext +  '=>CDC_SELL\n'
+        alltext = alltext +  '▼CDC_SELL\n'
     if (float(df['rsi'].iloc[-2])>70):
-        alltext = alltext + '=>RSI_OVERBOUGHT\n'
+        alltext = alltext + '▼RSI_OVERBOUGHT\n'
     elif(float(df['rsi'].iloc[-2])<30):
-        alltext = alltext + '=>RSI_OVERSOLD\n'
+        alltext = alltext + '▲RSI_OVERSOLD\n'
     if(float(df['week18'].iloc[-1]) < float(df['Close'].iloc[-1])):
-        alltext = alltext + '=>WEEK18_UP\n'
+        alltext = alltext + '▲WEEK18_UP\n'
     elif(float(df['week18'].iloc[-1]) > float(df['Close'].iloc[-1])):
-        alltext = alltext + '=>WEEK18_DOWN\n'
+        alltext = alltext + '▼WEEK18_DOWN\n'
     return alltext
