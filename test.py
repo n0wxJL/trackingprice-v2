@@ -43,7 +43,8 @@ fmt_min = '%Y-%m-%d %H:%M'
 # print(price.contents)
 
 # tsla = yf.Ticker('TSLA')
-# print(tsla.info['financialCurrency'])
+# print(tsla.fast_info['currency'])
+# print(tsla.info['exchange'])
 # frame = pd.DataFrame(tsla.history()).reset_index()
 # # print(frame)
 # frame = frame.iloc[:,:6]
@@ -128,4 +129,4 @@ fmt_min = '%Y-%m-%d %H:%M'
 # get_report_stock()
 
 
-# messenger.sendtext('·')
+# messenger.sendtext('☼')

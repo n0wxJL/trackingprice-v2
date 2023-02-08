@@ -8,7 +8,7 @@ messenger = Sendline(token_noti)
 
 def gmwhale():
         print('gmwhale()')
-        value_text = 'Good morning. :)'+'\n\n'+callQoute()
+        value_text = 'Good morning.🌟'+'\n\n'+callQoute()
         print(value_text)
         messenger.sendtext(value_text)
 

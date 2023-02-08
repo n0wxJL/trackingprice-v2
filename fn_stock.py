@@ -45,8 +45,7 @@ def get_report_stock():
     for sym in coin_list.stockd:
         print(sym)
         stk_pd = yf.Ticker(sym)
-        # cur_sym = fn.cur_symbol(stk_pd.info['financialCurrency'])
-        cur_sym = ''
+        cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
         frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
         frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
         frame = frame.iloc[:,:6]

@@ -133,7 +133,5 @@ def delay(sec):
 def cur_symbol(cur):
     if cur == 'USD':
         return '$'
-    elif cur == 'THB':
-        return '฿'
     else :
-        return '$'
+        return '฿'
