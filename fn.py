@@ -11,6 +11,7 @@ import coin_list
 import setup_var as sv
 import re
 import ta
+import yfinance as yf
 
 api_key = tkk.api_key
 api_secret = tkk.api_secret
@@ -110,20 +111,24 @@ def applytechnical(df):
     df['ema12'] = ta.trend.ema_indicator(df.Close,window=12)
     df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
     df['cdc'] = ta.trend.ema_indicator(df.Close,window=12) - ta.trend.ema_indicator(df.Close,window=26)
+    df['week18'] = ta.trend.ema_indicator(df.Close,window=17)
     df.dropna(inplace=True)
 
 def get_action_indicator(df):
     print('get_action_indicator()')
-    alltext =''
-    if (float(df['cdc'][-2])>0 and float(df['cdc'][-3]<0)):
+    alltext=''
+    if (float(df['cdc'].iloc[-2])>0 and float(df['cdc'].iloc[-3]<0)):
         alltext = alltext + '▲CDC_BUY\n'
-    elif (float(df['cdc'][-2])<0 and float(df['cdc'][-3]>0)):
+    elif (float(df['cdc'].iloc[-2])<0 and float(df['cdc'].iloc[-3]>0)):
         alltext = alltext +  '▼CDC_SELL\n'
-    if (float(df['rsi'][-1])>70):
+    if (float(df['rsi'].iloc[-2])>70):
         alltext = alltext + '▼RSI_OVERBOUGHT\n'
-    elif(float(df['rsi'][-1])<30):
+    elif(float(df['rsi'].iloc[-2])<30):
         alltext = alltext + '▲RSI_OVERSOLD\n'
-    
+    if(float(df['week18'].iloc[-1]) < float(df['Close'].iloc[-1])):
+        alltext = alltext + '▲WEEK18_UP\n'
+    elif(float(df['week18'].iloc[-1]) > float(df['Close'].iloc[-1])):
+        alltext = alltext + '▼WEEK18_DOWN\n'
     return alltext
 
 
@@ -135,3 +140,35 @@ def cur_symbol(cur):
         return '$'
     else :
         return '฿'
+    
+def get_report_crypto():
+    print('get_report_crypto()')
+    all_text = '\n--Report Crypto--\n'
+    for sym in coin_list.coin_list_tf:
+        print(sym)
+        stk_pd = yf.Ticker(sym)
+        cur_sym = cur_symbol(stk_pd.fast_info['currency'])
+        frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
+        frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
+        frame = frame.iloc[:,:6]
+        frame2 = frame2.iloc[:,:6]
+        frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
+        frame.sort_values(by='Date',ascending=True,inplace=True)
+        frame2['Date'] = pd.to_datetime(frame2['Date'].dt.strftime('%Y-%m-%d'))
+        frame2.sort_values(by='Date',ascending=True,inplace=True)
+        applytechnical(frame)
+        applytechnical(frame2)
+        for i in range(0,len(frame2.index)):
+            frame['week18'].iloc[-1*i] = frame2['week18'].iloc[-1*i]
+        pr_chg = ((frame['Close'].iloc[-2] - frame['Close'].iloc[-3])/frame['Close'].iloc[-3])*100
+        close_chg = frame['Close'].iloc[-2]
+        rsi_chg = frame['rsi'].iloc[-2]
+        macd_chg = frame['macd'].iloc[-2]
+        cdc_chg = frame['cdc'].iloc[-2]
+        week18_chg = frame['week18'].iloc[-1]
+        take_action = get_action_indicator(frame)
+        all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n▸WEEK18: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,week18_chg,take_action)
+    print(all_text)
+    messenger.sendtext(all_text)
+
+get_report_crypto()

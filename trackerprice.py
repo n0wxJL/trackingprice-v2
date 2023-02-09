@@ -11,7 +11,8 @@ def main():
         if fn.time_next_day():
             gmwhale.gmwhale()
             fn.delay(2)
-            fn.get_report()
+            # fn.get_report()
+            fn.get_report_crypto()
             fn.delay(2)
             fn_stock.get_exchangerate()
             fn.delay(2)
