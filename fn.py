@@ -170,5 +170,3 @@ def get_report_crypto():
         all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n▸WEEK18: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,week18_chg,take_action)
     print(all_text)
     messenger.sendtext(all_text)
-
-get_report_crypto()
