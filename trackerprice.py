@@ -8,7 +8,7 @@ import fn_stock
 
 def main():
     while True:
-        if True :#fn.time_next_day():
+        if fn.time_next_day():
             gmwhale.gmwhale()
             fn.delay(2)
             # fn.get_report()
