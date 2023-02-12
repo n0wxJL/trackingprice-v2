@@ -53,6 +53,7 @@ def pricetrack():
         cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
         frame = pd.DataFrame(stk_pd.history(period='2d',interval='1h')).reset_index()
         frame = frame.iloc[:,:6]
+        print(frame)
         prc_close = frame['Close'].iloc[-1]
         prc_pre_close = frame['Close'].iloc[-1*(int(tf_num[0])+1)]
         prc_chg = (prc_close-prc_pre_close)/prc_pre_close*100
