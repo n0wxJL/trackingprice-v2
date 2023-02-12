@@ -51,7 +51,7 @@ def pricetrack():
     for sym in coin_list.coin_list_tf:
         stk_pd = yf.Ticker(sym)
         cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
-        frame = pd.DataFrame(stk_pd.history(period='1d',interval='1h')).reset_index()
+        frame = pd.DataFrame(stk_pd.history(period='2d',interval='1h')).reset_index()
         frame = frame.iloc[:,:6]
         prc_close = frame['Close'].iloc[-1]
         prc_pre_close = frame['Close'].iloc[-1*(int(tf_num[0])+1)]
