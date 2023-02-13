@@ -117,17 +117,17 @@ def applytechnical(df):
 def get_action_indicator(df):
     print('get_action_indicator()')
     alltext=''
-    if (float(df['cdc'].iloc[-2])>0 and float(df['cdc'].iloc[-3]<0)):
+    if (float(df['cdc'].iloc[-1])>0 and float(df['cdc'].iloc[-2]<0)):
         alltext = alltext + '▲CDC_BUY\n'
-    elif (float(df['cdc'].iloc[-2])<0 and float(df['cdc'].iloc[-3]>0)):
+    elif (float(df['cdc'].iloc[-1])<0 and float(df['cdc'].iloc[-2]>0)):
         alltext = alltext +  '▼CDC_SELL\n'
-    if (float(df['rsi'].iloc[-2])>70):
+    if (float(df['rsi'].iloc[-1])>70):
         alltext = alltext + '▼RSI_OVERBOUGHT\n'
-    elif(float(df['rsi'].iloc[-2])<30):
+    elif(float(df['rsi'].iloc[-1])<30):
         alltext = alltext + '▲RSI_OVERSOLD\n'
-    if(float(df['week18'].iloc[-1]) < float(df['Close'].iloc[-1])):
+    if(float(df['week18'].iloc[-2]) < float(df['Close'].iloc[-1])):
         alltext = alltext + '▲WEEK18_UP\n'
-    elif(float(df['week18'].iloc[-1]) > float(df['Close'].iloc[-1])):
+    elif(float(df['week18'].iloc[-2]) > float(df['Close'].iloc[-1])):
         alltext = alltext + '▼WEEK18_DOWN\n'
     return alltext
 
@@ -160,11 +160,11 @@ def get_report_crypto():
         applytechnical(frame2)
         for i in range(0,len(frame2.index)):
             frame['week18'].iloc[-1*i] = frame2['week18'].iloc[-1*i]
-        pr_chg = ((frame['Close'].iloc[-2] - frame['Close'].iloc[-3])/frame['Close'].iloc[-3])*100
-        close_chg = frame['Close'].iloc[-2]
-        rsi_chg = frame['rsi'].iloc[-2]
-        macd_chg = frame['macd'].iloc[-2]
-        cdc_chg = frame['cdc'].iloc[-2]
+        pr_chg = ((frame['Close'].iloc[-1] - frame['Close'].iloc[-2])/frame['Close'].iloc[-2])*100
+        close_chg = frame['Close'].iloc[-1]
+        rsi_chg = frame['rsi'].iloc[-1]
+        macd_chg = frame['macd'].iloc[-1]
+        cdc_chg = frame['cdc'].iloc[-1]
         week18_chg = frame['week18'].iloc[-1]
         take_action = get_action_indicator(frame)
         all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n▸WEEK18: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,week18_chg,take_action)
