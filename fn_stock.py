@@ -83,15 +83,15 @@ def get_action_indicator(df):
     print('get_action_indicator()')
     alltext=''
     if (float(df['cdc'].iloc[-1])>0 and float(df['cdc'].iloc[-3]<0)):
-        alltext = alltext + '▲CDC_BUY\n'
+        alltext = alltext + '▲CDC_BUY👍\n'
     elif (float(df['cdc'].iloc[-1])<0 and float(df['cdc'].iloc[-3]>0)):
-        alltext = alltext +  '▼CDC_SELL\n'
+        alltext = alltext +  '▼CDC_SELL👎\n'
     if (float(df['rsi'].iloc[-1])>70):
-        alltext = alltext + '▼RSI_OVERBOUGHT\n'
+        alltext = alltext + '▼RSI_OVERBOUGHT👎\n'
     elif(float(df['rsi'].iloc[-1])<30):
-        alltext = alltext + '▲RSI_OVERSOLD\n'
+        alltext = alltext + '▲RSI_OVERSOLD👍\n'
     if(float(df['week18'].iloc[-2]) < float(df['Close'].iloc[-1])):
-        alltext = alltext + '▲WEEK18_UP\n'
+        alltext = alltext + '▲WEEK18_UP👍\n'
     elif(float(df['week18'].iloc[-2]) > float(df['Close'].iloc[-1])):
-        alltext = alltext + '▼WEEK18_DOWN\n'
+        alltext = alltext + '▼WEEK18_DOWN👎\n'
     return alltext
