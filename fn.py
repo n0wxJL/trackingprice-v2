@@ -125,9 +125,9 @@ def get_action_indicator(df):
         alltext = alltext + '▼RSI_OB👎\n'
     elif(float(df['rsi'].iloc[-1])<30):
         alltext = alltext + '▲RSI_OS👍\n'
-    if(float(df['week18'].iloc[-2]) < float(df['Close'].iloc[-1])):
+    if((float(df['week18'].iloc[-2]) < float(df['Close'].iloc[-1])) and (float(df['Close'].iloc[-1]) < df['week18'].iloc[-3])):
         alltext = alltext + '▲WEEK18_UP👍\n'
-    elif(float(df['week18'].iloc[-2]) > float(df['Close'].iloc[-1])):
+    elif((float(df['week18'].iloc[-2]) > float(df['Close'].iloc[-1]) and (float(df['Close'].iloc[-1]) > df['week18'].iloc[-3]))):
         alltext = alltext + '▼WEEK18_DW👎\n'
     return alltext
 
