@@ -57,16 +57,16 @@ def get_report_stock():
         df = frame
         applytechnical(df)
         applytechnical(frame2)
-        for i in range(0,len(frame2.index)):
-            df['week18'].iloc[-1*i] = frame2['week18'].iloc[-1*i]
+        # for i in range(0,len(frame2.index)):
+        #     df['week18'].iloc[-1*i] = frame2['week18'].iloc[-1*i]
         pr_chg = ((df['Close'].iloc[-1] - df['Close'].iloc[-2])/df['Close'].iloc[-2])*100
         close_chg = df['Close'].iloc[-1]
         rsi_chg = df['rsi'].iloc[-1]
         macd_chg = df['macd'].iloc[-1]
         cdc_chg = df['cdc'].iloc[-1]
-        week18_chg = df['week18'].iloc[-1]
+        # week18_chg = df['week18'].iloc[-1]
         take_action = get_action_indicator(df)
-        all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n▸WEEK18: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,week18_chg,take_action)
+        all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n{}\n-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
     messenger.sendtext(all_text)
 
@@ -76,7 +76,7 @@ def applytechnical(df):
     df['ema12'] = ta.trend.ema_indicator(df.Close,window=12)
     df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
     df['cdc'] = ta.trend.ema_indicator(df.Close,window=12) - ta.trend.ema_indicator(df.Close,window=26)
-    df['week18'] = ta.trend.ema_indicator(df.Close,window=17)
+    # df['week18'] = ta.trend.ema_indicator(df.Close,window=17)
     df.dropna(inplace=True)
 
 def get_action_indicator(df):
@@ -90,8 +90,8 @@ def get_action_indicator(df):
         alltext = alltext + '▼RSI_OB👎\n'
     elif(float(df['rsi'].iloc[-1])<30):
         alltext = alltext + '▲RSI_OS👍\n'
-    if(float(df['week18'].iloc[-2]) < float(df['Close'].iloc[-1])):
-        alltext = alltext + '▲WEEK18_UP👍\n'
-    elif(float(df['week18'].iloc[-2]) > float(df['Close'].iloc[-1])):
-        alltext = alltext + '▼WEEK18_DW👎\n'
+    # if(float(df['week18'].iloc[-2]) < float(df['Close'].iloc[-1])):
+    #     alltext = alltext + '▲WEEK18_UP👍\n'
+    # elif(float(df['week18'].iloc[-2]) > float(df['Close'].iloc[-1])):
+    #     alltext = alltext + '▼WEEK18_DW👎\n'
     return alltext
