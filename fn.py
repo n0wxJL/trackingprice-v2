@@ -167,6 +167,6 @@ def get_report_crypto():
         cdc_chg = frame['cdc'].iloc[-1]
         # week18_chg = frame['week18'].iloc[-1]
         take_action = get_action_indicator(frame)
-        all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n{}\n-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
+        all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
     messenger.sendtext(all_text)

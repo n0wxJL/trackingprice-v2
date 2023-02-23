@@ -22,7 +22,7 @@ def main():
             fn_stock.get_report_stock()
             fn.delay(2)
         if fn.bar_time(sv.interval_candle,fn.time_server()):
-            fn.delay(30)
+            fn.delay(60)
             pricetrack.pricetrack()
         time.sleep(1)
 
