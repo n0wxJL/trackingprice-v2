@@ -61,5 +61,3 @@ def pricetrack():
         all_text += '\n▸{}: {}{:,.2f} CHG: {:,.2f}%'.format(sym,cur_sym,prc_close,prc_chg)
     print(all_text)
     messenger.sendtext(all_text)
-
-pricetrack()
