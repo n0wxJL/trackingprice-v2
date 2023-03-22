@@ -50,8 +50,9 @@ def pricetrack():
     all_text = '\nTime Frame : {} {}'.format(tf_num[0],tf_type_text)
     for sym in coin_list.coin_list_tf:
         stk_pd = yf.Ticker(sym)
+        print(stk_pd)
         cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
-        frame = pd.DataFrame(stk_pd.history(period='2d',interval='1h')).reset_index()
+        frame = pd.DataFrame(stk_pd.history(period='5d',interval='1h')).reset_index()
         frame = frame.iloc[:,:6]
         print(frame)
         prc_close = frame['Close'].iloc[-1]
@@ -60,3 +61,5 @@ def pricetrack():
         all_text += '\n▸{}: {}{:,.2f} CHG: {:,.2f}%'.format(sym,cur_sym,prc_close,prc_chg)
     print(all_text)
     messenger.sendtext(all_text)
+
+pricetrack()
