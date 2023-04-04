@@ -8,7 +8,7 @@ import datetime as dt
 import token_api as tkk
 import pandas as pd
 import coin_list
-import setup_var as sv
+# import setup_var as sv
 import re
 import ta
 import yfinance as yf
@@ -17,10 +17,8 @@ api_key = tkk.api_key
 api_secret = tkk.api_secret
 token_noti = tkk.token_noti
 client = Client(api_key, api_secret)
-
 messenger = Sendline(token_noti)
 
-mycoin = coin_list.mycoin
 lookback = '300'
 
 next_day = []
@@ -84,18 +82,6 @@ def interval_find(interval):
     interval_ret = [interval_time[0],interval_text]
     return interval_ret
 
-def get_report():
-    print('get_report()')
-    all_text = '\n--Report Crypto--\n'
-    for sym in mycoin:
-        df = get_bar_data(sym,sv.interval,lookback)
-        applytechnical(df)
-        # print(df)
-        take_action = get_action_indicator(df)
-        all_text = all_text + '{}\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n{}-----------\n'.format(sym,df['rsi'][-2],df['macd'][-2],df['cdc'][-2],take_action)
-    print(all_text)
-    messenger.sendtext(all_text)
-
 def get_bar_data(sym,interval,lookback):
     frame = pd.DataFrame(client.get_historical_klines(sym,interval,lookback + ' day ago UTC'))
     frame = frame.iloc[:,:6]
@@ -111,7 +97,6 @@ def applytechnical(df):
     df['ema12'] = ta.trend.ema_indicator(df.Close,window=12)
     df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
     df['cdc'] = ta.trend.ema_indicator(df.Close,window=12) - ta.trend.ema_indicator(df.Close,window=26)
-    # df['week18'] = ta.trend.ema_indicator(df.Close,window=17)
     df.dropna(inplace=True)
 
 def get_action_indicator(df):
@@ -125,10 +110,6 @@ def get_action_indicator(df):
         alltext = alltext + '▼RSI_OB👎\n'
     elif(float(df['rsi'].iloc[-1])<30):
         alltext = alltext + '▲RSI_OS👍\n'
-    # if((float(df['week18'].iloc[-2]) < float(df['Close'].iloc[-1])) and (float(df['Close'].iloc[-1]) < df['week18'].iloc[-3])):
-    #     alltext = alltext + '▲WEEK18_UP👍\n'
-    # elif((float(df['week18'].iloc[-2]) > float(df['Close'].iloc[-1]) and (float(df['Close'].iloc[-1]) > df['week18'].iloc[-3]))):
-    #     alltext = alltext + '▼WEEK18_DW👎\n'
     return alltext
 
 
@@ -140,33 +121,37 @@ def cur_symbol(cur):
         return '$'
     else :
         return '฿'
-    
+
 def get_report_crypto():
     print('get_report_crypto()')
     all_text = '\n--Report Crypto--\n'
-    for sym in coin_list.coin_list_tf:
-        print(sym)
-        stk_pd = yf.Ticker(sym)
-        cur_sym = cur_symbol(stk_pd.fast_info['currency'])
-        frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
-        frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
-        frame = frame.iloc[:,:6]
-        frame2 = frame2.iloc[:,:6]
-        frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-        frame.sort_values(by='Date',ascending=True,inplace=True)
-        frame2['Date'] = pd.to_datetime(frame2['Date'].dt.strftime('%Y-%m-%d'))
-        frame2.sort_values(by='Date',ascending=True,inplace=True)
-        applytechnical(frame)
-        applytechnical(frame2)
-        # for i in range(0,len(frame2.index)):
-        #     frame['week18'].iloc[-1*i] = frame2['week18'].iloc[-1*i]
-        pr_chg = ((frame['Close'].iloc[-1] - frame['Close'].iloc[-2])/frame['Close'].iloc[-2])*100
-        close_chg = frame['Close'].iloc[-1]
-        rsi_chg = frame['rsi'].iloc[-1]
-        macd_chg = frame['macd'].iloc[-1]
-        cdc_chg = frame['cdc'].iloc[-1]
-        # week18_chg = frame['week18'].iloc[-1]
-        take_action = get_action_indicator(frame)
-        all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
+    for i in coin_list.coin_list:
+        if coin_list.coin_list[i]['open'] == '1':
+            sym = coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency']
+            precis = coin_list.coin_list[i]['precision']
+            print(sym)
+            stk_pd = yf.Ticker(sym)
+            sym = i
+            cur_sym = cur_symbol(stk_pd.fast_info['currency'])
+            frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
+            frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
+            frame = frame.iloc[:,:6]
+            frame2 = frame2.iloc[:,:6]
+            frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
+            frame.sort_values(by='Date',ascending=True,inplace=True)
+            frame2['Date'] = pd.to_datetime(frame2['Date'].dt.strftime('%Y-%m-%d'))
+            frame2.sort_values(by='Date',ascending=True,inplace=True)
+            applytechnical(frame)
+            applytechnical(frame2)
+            # print(frame)
+            if frame.empty == False and frame2.empty == False:
+                pr_chg = ((frame['Close'].iloc[-1] - frame['Close'].iloc[-2])/frame['Close'].iloc[-2])*100
+                close_chg = frame['Close'].iloc[-1]
+                rsi_chg = frame['rsi'].iloc[-1]
+                macd_chg = frame['macd'].iloc[-1]
+                cdc_chg = frame['cdc'].iloc[-1]
+                take_action = get_action_indicator(frame)
+                close_chg_txt = '{:.{precis}f}'.format(close_chg, precis=precis)
+                all_text = all_text + '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
     messenger.sendtext(all_text)
