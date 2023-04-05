@@ -22,7 +22,6 @@ def pricetrack():
     all_text = '\n'
     for i in coin_list.coin_list:
         if coin_list.coin_list[i]['open'] == '1':
-            print(coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency'])
             sym = coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency']
             precis = coin_list.coin_list[i]['precision']
             stk_pd = yf.Ticker(sym)
