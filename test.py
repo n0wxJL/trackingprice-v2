@@ -16,6 +16,8 @@ import ta
 import yfinance as yf
 import numpy as np
 
+import requests
+
 api_key = tkk.api_key
 api_secret = tkk.api_secret
 token_noti = tkk.token_noti
@@ -23,29 +25,24 @@ token_noti = tkk.token_noti
 client = Client(api_key, api_secret)
 messenger = Sendline(token_noti)
 
-interval_bef = sv.interval
-interval_tf = '1d' # sv.interval_candle
-mycoin = coin_list.stockd
-fmt = '%Y-%m-%d %H:%M:%S'
-fmt_min = '%Y-%m-%d %H:%M'
 
+
+# def Lineconfig(command):
+# 		url = 'https://notify-api.line.me/api/notify'
+# 		token = tkk.token_noti #self.tok ## EDIT
+# 		header = {'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer '+token}
+# 		return requests.post(url, headers=header, data = command)
+
+
+# def sendtext(message):
+# 		# send plain text to line
+# 		command = {'message':message}
+# 		return Lineconfig(command)
 
 # def test():
-#     tf_num = re.findall(r'\d+', sv.interval_candle)
-#     all_text = '\n'
-#     for i in coin_list.coin_list:
-#         if coin_list.coin_list[i]['open'] == '1':
-#             print(coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency'])
-#             sym = coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency']
-#             stk_pd = yf.Ticker(sym)
-#             # print(stk_pd)
-#             cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
-#             frame = pd.DataFrame(stk_pd.history(period='5d',interval='1h')).reset_index()
-#             frame = frame.iloc[:,:6]
-#             # print(frame)
-#             prc_close = frame['Close'].iloc[-1]
-#             prc_pre_close = frame['Close'].iloc[-1*(int(tf_num[0])+1)]
-#             prc_chg = (prc_close-prc_pre_close)/prc_pre_close*100
-#             all_text += '▸{}:\nPrice: {}{:,.2f}\nCHG: {:,.2f}%\n-----------\n'.format(sym,cur_sym,prc_close,prc_chg)
-#     print(all_text)
-#     # messenger.sendtext(all_text)
+#     while True:
+#         msg = sendtext('tesfewfewfweqfqwfwefewfwefsdfsdfffewfweqfwefwefewewdsfsdafaefwfwerwrewrewt')
+#         print(msg)
+#         time.sleep(2)
+
+# test()
