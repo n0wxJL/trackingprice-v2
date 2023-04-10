@@ -39,3 +39,8 @@ def pricetrack():
                 all_text += '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\n-----------\n'.format(sym,cur_sym,prc_close_txt,prc_chg)
     print(all_text)
     stats = messenger.sendtext(all_text)
+    if stats.status_code != 200:
+        pricetrack()
+    else:
+        print(stats.status_code)
+        return
