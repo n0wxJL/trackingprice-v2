@@ -1,9 +1,4 @@
-# from http import client
-# from binance.client import Client
-# from pprint import pprint
 from songline import Sendline
-# import datetime as dt
-# from datetime import datetime
 import token_api as tkk
 import coin_list
 import setup_var as sv
@@ -12,8 +7,6 @@ import yfinance as yf
 import pandas as pd
 import fn
 
-# api_key = tkk.api_key
-# api_secret = tkk.api_secret
 token_noti = tkk.token_noti
 messenger = Sendline(token_noti)
 
@@ -26,11 +19,9 @@ def pricetrack():
             precis = coin_list.coin_list[i]['precision']
             stk_pd = yf.Ticker(sym)
             sym = i
-            # print(stk_pd)
             cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
             frame = pd.DataFrame(stk_pd.history(period='4d',interval='1h')).reset_index()
             frame = frame.iloc[:,:6]
-            # print(frame)
             if frame.empty == False:
                 prc_close = frame['Close'].iloc[-1]
                 prc_pre_close = frame['Close'].iloc[-1*(int(tf_num[0])+1)]
