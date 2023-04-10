@@ -6,6 +6,7 @@ import re
 import yfinance as yf
 import pandas as pd
 import fn
+import time
 
 token_noti = tkk.token_noti
 messenger = Sendline(token_noti)
@@ -31,6 +32,7 @@ def pricetrack():
     print(all_text)
     stats = messenger.sendtext(all_text)
     if stats.status_code != 200:
+        time.sleep(2)
         pricetrack()
     else:
         print(stats.status_code)
