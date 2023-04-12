@@ -25,48 +25,37 @@ def get_exchangerate():
     print(text)
     messenger.sendtext(text)
 
-def get_stock_price():
-    print('get_stock_price()')
-    alltext = '\n--Stocks--\n'
-    for sym in coin_list.stockd:
-        stk_pd = yf.Ticker(sym)
-        frame = pd.DataFrame(stk_pd.history(period='6mo')).reset_index()
-        frame = frame.iloc[:,:6]
-        frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-        frame.sort_values(by='Date',ascending=True,inplace=True)
-        stk_chg = ((frame['Close'][20] - frame['Close'][19])/frame['Close'][19])*100
-        alltext += '{}: {:,.2f} CHG: {:,.2f}%\n.\n'.format(sym,frame['Close'][20],stk_chg)
-    print(alltext)
-    messenger.sendtext(alltext)
-
 def get_report_stock():
     print('get_report_stock()')
     all_text = '\n--Report Stock--\n'
-    for sym in coin_list.stockd:
-        print(sym)
-        stk_pd = yf.Ticker(sym)
-        cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
-        frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
-        frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
-        frame = frame.iloc[:,:6]
-        frame2 = frame2.iloc[:,:6]
-        frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-        frame.sort_values(by='Date',ascending=True,inplace=True)
-        frame2['Date'] = pd.to_datetime(frame2['Date'].dt.strftime('%Y-%m-%d'))
-        frame2.sort_values(by='Date',ascending=True,inplace=True)
-        df = frame
-        applytechnical(df)
-        applytechnical(frame2)
-        # for i in range(0,len(frame2.index)):
-        #     df['week18'].iloc[-1*i] = frame2['week18'].iloc[-1*i]
-        pr_chg = ((df['Close'].iloc[-1] - df['Close'].iloc[-2])/df['Close'].iloc[-2])*100
-        close_chg = df['Close'].iloc[-1]
-        rsi_chg = df['rsi'].iloc[-1]
-        macd_chg = df['macd'].iloc[-1]
-        cdc_chg = df['cdc'].iloc[-1]
-        # week18_chg = df['week18'].iloc[-1]
-        take_action = get_action_indicator(df)
-        all_text = all_text + '{}: {}{:,.2f} CHG: {:,.2f}%\n▸RSI: {:,.2f}\n▸MACD: {:,.2f}\n▸CDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
+    for i in coin_list.stock_list:
+        if coin_list.stock_list[i]['open'] == '1':
+            sym = coin_list.stock_list[i]['name']
+            precis = coin_list.stock_list[i]['precision']
+            print(sym)
+            stk_pd = yf.Ticker(sym)
+            sym = i
+            cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
+            frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
+            frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
+            frame = frame.iloc[:,:6]
+            frame2 = frame2.iloc[:,:6]
+            frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
+            frame.sort_values(by='Date',ascending=True,inplace=True)
+            frame2['Date'] = pd.to_datetime(frame2['Date'].dt.strftime('%Y-%m-%d'))
+            frame2.sort_values(by='Date',ascending=True,inplace=True)
+            df = frame
+            applytechnical(df)
+            applytechnical(frame2)
+            if frame.empty == False and frame2.empty == False:
+                pr_chg = ((df['Close'].iloc[-1] - df['Close'].iloc[-2])/df['Close'].iloc[-2])*100
+                close_chg = df['Close'].iloc[-1]
+                close_chg_txt = '{:.{precis}f}'.format(close_chg, precis=precis)
+                rsi_chg = df['rsi'].iloc[-1]
+                macd_chg = df['macd'].iloc[-1]
+                cdc_chg = df['cdc'].iloc[-1]
+                take_action = get_action_indicator(df)
+                all_text = all_text + '▸{}: {}{}\nCHG(1D): {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
     messenger.sendtext(all_text)
 
@@ -90,8 +79,7 @@ def get_action_indicator(df):
         alltext = alltext + '▼RSI_OB👎\n'
     elif(float(df['rsi'].iloc[-1])<30):
         alltext = alltext + '▲RSI_OS👍\n'
-    # if(float(df['week18'].iloc[-2]) < float(df['Close'].iloc[-1])):
-    #     alltext = alltext + '▲WEEK18_UP👍\n'
-    # elif(float(df['week18'].iloc[-2]) > float(df['Close'].iloc[-1])):
-    #     alltext = alltext + '▼WEEK18_DW👎\n'
     return alltext
+
+
+get_report_stock()
