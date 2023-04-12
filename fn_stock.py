@@ -65,7 +65,6 @@ def applytechnical(df):
     df['ema12'] = ta.trend.ema_indicator(df.Close,window=12)
     df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
     df['cdc'] = ta.trend.ema_indicator(df.Close,window=12) - ta.trend.ema_indicator(df.Close,window=26)
-    # df['week18'] = ta.trend.ema_indicator(df.Close,window=17)
     df.dropna(inplace=True)
 
 def get_action_indicator(df):
@@ -80,6 +79,3 @@ def get_action_indicator(df):
     elif(float(df['rsi'].iloc[-1])<30):
         alltext = alltext + '▲RSI_OS👍\n'
     return alltext
-
-
-get_report_stock()
