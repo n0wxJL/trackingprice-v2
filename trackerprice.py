@@ -21,7 +21,7 @@ def main():
         if fn.bar_time(sv.interval_candle,fn.time_server()):
             fn.delay(60)
             pricetrack.pricetrack()
-        time.sleep(1)
+        fn.delay(1)
 
 if __name__ == "__main__":
     main()
