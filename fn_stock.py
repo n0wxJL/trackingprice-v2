@@ -55,7 +55,7 @@ def get_report_stock():
                 macd_chg = df['macd'].iloc[-1]
                 cdc_chg = df['cdc'].iloc[-1]
                 take_action = get_action_indicator(df)
-                all_text = all_text + '▸{}: {}{}\nCHG(1D): {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
+                all_text = all_text + '▸{}:\nPrice: {}{}\nCHG(1D): {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
     messenger.sendtext(all_text)
 
