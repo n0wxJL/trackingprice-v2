@@ -1,5 +1,4 @@
 # main
-import time
 import gmwhale
 import pricetrack
 import fn
