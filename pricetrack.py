@@ -1,5 +1,3 @@
-from songline import Sendline
-import token_api as tkk
 import coin_list
 import setup_var as sv
 import re
@@ -7,9 +5,10 @@ import yfinance as yf
 import pandas as pd
 import fn
 import time
+import lib
 
-token_noti = tkk.token_noti
-messenger = Sendline(token_noti)
+token_noti = sv.token_noti
+messenger = lib
 
 def pricetrack():
     tf_num = re.findall(r'\d+', sv.interval_candle)
@@ -30,10 +29,14 @@ def pricetrack():
                 prc_close_txt = '{:.{precis}f}'.format(prc_close, precis=precis)
                 all_text += '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\n-----------\n'.format(sym,cur_sym,prc_close_txt,prc_chg)
     print(all_text)
-    stats = messenger.sendtext(all_text)
-    if stats.status_code != 200:
+    stats = messenger.lineSendText(all_text)
+    if stats != 200:
+        print(stats)
         time.sleep(2)
         pricetrack()
     else:
-        print(stats.status_code)
+        print(stats)
         return
+    
+
+pricetrack()

@@ -99,7 +99,7 @@ coin_list = {
     "name":"VELA",
     "currency":"USD",
     "precision":"2",
-    "open":"1"
+    "open":"0"
     },
     "RPL":{
     "name":"RPL",
