@@ -7,7 +7,7 @@ import fn
 import time
 import lib
 
-token_noti = sv.token_noti
+token_noti = sv.token_noti_status
 messenger = lib
 
 def pricetrack():
@@ -29,7 +29,7 @@ def pricetrack():
                 prc_close_txt = '{:.{precis}f}'.format(prc_close, precis=precis)
                 all_text += '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\n-----------\n'.format(sym,cur_sym,prc_close_txt,prc_chg)
     print(all_text)
-    stats = messenger.lineSendText(all_text)
+    stats = messenger.lineSendText(all_text,token_noti)
     if stats != 200:
         print(stats)
         time.sleep(2)
