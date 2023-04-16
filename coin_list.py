@@ -74,31 +74,31 @@ coin_list = {
     "OP":{
     "name":"OP",
     "currency":"USD",
-    "precision":"4",
+    "precision":"3",
     "open":"1"
     },
     "ARB":{
     "name":"ARB11841",
     "currency":"USD",
-    "precision":"4",
+    "precision":"3",
     "open":"1"
     },
     "ZCX":{
     "name":"ZCX",
     "currency":"USD",
-    "precision":"4",
+    "precision":"3",
     "open":"1"
     },
     "SNX":{
     "name":"SNX",
     "currency":"USD",
-    "precision":"2",
+    "precision":"3",
     "open":"1"
     },
     "VELA":{
     "name":"VELA",
     "currency":"USD",
-    "precision":"2",
+    "precision":"3",
     "open":"0"
     },
     "RPL":{
@@ -110,13 +110,19 @@ coin_list = {
     "RDNT":{
     "name":"RDNT",
     "currency":"USD",
-    "precision":"4",
+    "precision":"3",
     "open":"1"
     },
     "UNI":{
     "name":"UNI7083",
     "currency":"USD",
-    "precision":"2",
+    "precision":"3",
+    "open":"1"
+    },
+    "MATIC":{
+    "name":"MATIC",
+    "currency":"USD",
+    "precision":"3",
     "open":"1"
     }
 }
