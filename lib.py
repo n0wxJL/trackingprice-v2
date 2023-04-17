@@ -1,7 +1,4 @@
 import requests
-import setup_var
-
-# token = setup_var.token_noti
 
 def lineSendText(message,token):
     payload = {'message' : message}

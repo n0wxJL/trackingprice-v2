@@ -4,7 +4,6 @@ import re
 import yfinance as yf
 import pandas as pd
 import fn
-import time
 import lib
 
 token_noti = sv.token_noti_status

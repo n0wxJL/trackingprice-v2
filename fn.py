@@ -1,7 +1,5 @@
 from http import client
 from binance.client import Client
-# from pprint import pprint
-from songline import Sendline
 import time
 import datetime as dt
 from datetime import datetime, timezone, timedelta
@@ -12,12 +10,15 @@ import setup_var as sv
 import re
 import ta
 import yfinance as yf
+import lib
 
 api_key = tkk.api_key
 api_secret = tkk.api_secret
-token_noti = tkk.token_noti
+# token_noti = tkk.token_noti
 client = Client(api_key, api_secret)
-messenger = Sendline(token_noti)
+
+token_noti = sv.token_noti_status
+messenger = lib
 
 lookback = '300'
 
@@ -154,7 +155,7 @@ def get_report_crypto():
                 close_chg_txt = '{:.{precis}f}'.format(close_chg, precis=precis)
                 all_text = all_text + '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
-    messenger.sendtext(all_text)
+    messenger.lineSendText(all_text,token_noti)
 
 def datetimeUtcNow():
     return datetime.utcnow().replace(tzinfo=timezone.utc).timestamp()

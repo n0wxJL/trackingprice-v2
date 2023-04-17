@@ -2,28 +2,26 @@ import pandas as pd
 import setup_var as sv
 from bs4 import BeautifulSoup as soup
 from urllib.request import Request,urlopen as req
-from songline import Sendline
-import token_api as tkk
 import coin_list
 import yfinance as yf
 import ta
 import fn
+import lib
 
-token_noti = tkk.token_noti
-messenger = Sendline(token_noti)
+token_noti = sv.token_noti_status
+messenger = lib
 
 def get_exchangerate():
     print('get_exchangerate()')
-    text = ''
+    all_text = ''
     reqs = Request(url=sv.url,headers={'User-Agent': 'Mozilla/5.0'})
     webopen = req(reqs)
     page_html = webopen.read()
     webopen.close()
     data = soup(page_html,'html.parser')
     temp = data.findAll('span',{'data-test':'instrument-price-last'})
-    text = '\nUSDTHB: '+temp[0].text
-    print(text)
-    messenger.sendtext(text)
+    all_text = '\nUSDTHB: '+temp[0].text
+    messenger.lineSendText(all_text,token_noti)
 
 def get_report_stock():
     print('get_report_stock()')
@@ -57,7 +55,7 @@ def get_report_stock():
                 take_action = get_action_indicator(df)
                 all_text = all_text + '▸{}:\nPrice: {}{}\nCHG(1D): {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
-    messenger.sendtext(all_text)
+    messenger.lineSendText(all_text,token_noti)
 
 def applytechnical(df):
     df['rsi'] = ta.momentum.rsi(df.Close,window=14)
