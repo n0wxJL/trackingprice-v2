@@ -4,11 +4,11 @@ from binance.client import Client
 from songline import Sendline
 import time
 import datetime as dt
-# from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import token_api as tkk
 import pandas as pd
 import coin_list
-# import setup_var as sv
+import setup_var as sv
 import re
 import ta
 import yfinance as yf
@@ -155,3 +155,20 @@ def get_report_crypto():
                 all_text = all_text + '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
     messenger.sendtext(all_text)
+
+def datetimeUtcNow():
+    return datetime.utcnow().replace(tzinfo=timezone.utc).timestamp()
+
+def genTimeInterval():
+    time_bar_list = []
+    interval_list = interval_find(sv.interval_candle)
+    now_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
+    now_utc = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
+    if interval_list[1] == 'h':
+        i = int(1440/(int(interval_list[0]) * 60))
+        for x in range(i):
+            a = int(interval_list[0])*x
+            now_utc = now_utc + timedelta(hours=a)
+            if now_utc.timestamp() > datetimeUtcNow():
+                time_bar_list.append(now_utc.timestamp())
+    return time_bar_list
