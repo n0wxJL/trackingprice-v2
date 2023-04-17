@@ -5,9 +5,8 @@ import fn
 import fn_stock
 
 def main():
-    # add call fn between the day
+    bar_time_len = 0
     while True:
-        bar_time_len = 0
         if bar_time_len <= 2:
             bar_time = fn.genTimeInterval()
             bar_time_len = len(bar_time)
@@ -26,7 +25,7 @@ def main():
             if (timenow >= bar_time[i]) and (timenow < bar_time[i+1]):
                 pricetrack.pricetrack()
                 bar_time.pop(i)
-                break
+            break
         fn.delay(1)
 
 if __name__ == "__main__":

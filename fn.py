@@ -164,12 +164,15 @@ def genTimeInterval():
     time_bar_list = []
     interval_list = interval_find(sv.interval_candle)
     now_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
-    now_utc = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
+    # now_utc = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
     if interval_list[1] == 'h':
-        i = int(1440/(int(interval_list[0]) * 60))
+        now_utc = now_utc.replace(minute=0, second=0, microsecond=0)
+        # i = int(1440/(int(interval_list[0]) * 60))
+        i = 4
         for x in range(i):
             a = int(interval_list[0])*x
             now_utc = now_utc + timedelta(hours=a)
-            if now_utc.timestamp() > datetimeUtcNow():
-                time_bar_list.append(now_utc.timestamp())
+            # if now_utc.timestamp() > datetimeUtcNow():
+            #     time_bar_list.append(now_utc.timestamp())
+            time_bar_list.append(now_utc.timestamp())
     return time_bar_list
