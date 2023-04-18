@@ -1,9 +1,7 @@
 from http import client
-from binance.client import Client
 import time
 import datetime as dt
 from datetime import datetime, timezone, timedelta
-import token_api as tkk
 import pandas as pd
 import coin_list
 import setup_var as sv
@@ -11,11 +9,6 @@ import re
 import ta
 import yfinance as yf
 import lib
-
-api_key = tkk.api_key
-api_secret = tkk.api_secret
-# token_noti = tkk.token_noti
-client = Client(api_key, api_secret)
 
 token_noti = sv.token_noti_status
 messenger = lib
@@ -27,21 +20,16 @@ next_bar = []
 fmt = '%Y-%m-%d %H:%M:%S'
 fmt_min = '%Y-%m-%d %H:%M'
 
-def time_server():
-    time_server = client.get_server_time()
-    time_server = dt.datetime.fromtimestamp(time_server['serverTime']/1000).strftime(fmt)
-    time_server = dt.datetime.strptime(time_server,fmt)
-    return time_server
-
 def time_next_day():
-    time_servers = time_server()
+    time_servers = datetime.utcnow().replace(tzinfo=timezone.utc).replace(minute=0, second=0, microsecond=0).strftime(fmt)
+    time_servers = datetime.strptime(time_servers,fmt)
+    print(time_servers)
     if not next_day:
         nextd = str(time_servers + dt.timedelta(days=1))
         next_day.append(nextd)
         print('Next Day',next_day[0])
     next_day_date = dt.datetime.strptime(next_day[0],fmt)
     if (next_day_date.day - time_servers.day) == 0:
-        # print('New Day :)')
         next_day.pop(0)
         return True
     else:
@@ -164,15 +152,11 @@ def genTimeInterval():
     time_bar_list = []
     interval_list = interval_find(sv.interval_candle)
     now_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
-    # now_utc = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
     if interval_list[1] == 'h':
         now_utc = now_utc.replace(minute=0, second=0, microsecond=0)
-        # i = int(1440/(int(interval_list[0]) * 60))
         i = 4
         for x in range(i):
             a = int(interval_list[0])*x
             now_utc = now_utc + timedelta(hours=a)
-            # if now_utc.timestamp() > datetimeUtcNow():
-            #     time_bar_list.append(now_utc.timestamp())
             time_bar_list.append(now_utc.timestamp())
     return time_bar_list

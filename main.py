@@ -11,8 +11,8 @@ def main():
             bar_time = fn.genTimeInterval()
             bar_time_len = len(bar_time)
         if fn.time_next_day():
-            gmwhale.gmwhale()
             fn.delay(60)
+            gmwhale.gmwhale()
             fn.get_report_crypto()
             fn.delay(2)
             fn_stock.get_report_stock()
@@ -23,6 +23,7 @@ def main():
         timenow = fn.datetimeUtcNow()
         for i in range(bar_time_len):
             if (timenow >= bar_time[i]) and (timenow < bar_time[i+1]):
+                fn.delay(60)
                 pricetrack.pricetrack()
                 bar_time.pop(i)
             break
