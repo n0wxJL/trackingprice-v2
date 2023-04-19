@@ -23,7 +23,6 @@ fmt_min = '%Y-%m-%d %H:%M'
 def time_next_day():
     time_servers = datetime.utcnow().replace(tzinfo=timezone.utc).replace(minute=0, second=0, microsecond=0).strftime(fmt)
     time_servers = datetime.strptime(time_servers,fmt)
-    print(time_servers)
     if not next_day:
         nextd = str(time_servers + dt.timedelta(days=1))
         next_day.append(nextd)
@@ -50,7 +49,6 @@ def bar_time(interval,server_time):
             minute = round_bar_next*60
         if interval_text[1] == 'd':
             minute = int(interval_text[0]) * 1440
-        print(minute)
         time_set_start = start_time
         server_time_next = time_set_start + dt.timedelta(minutes=minute)
         sec = dt.datetime.strptime(dt.datetime.strftime(server_time_next,fmt_min),fmt_min)
@@ -70,15 +68,6 @@ def interval_find(interval):
     interval_text = re.sub('\d+', '', interval)
     interval_ret = [interval_time[0],interval_text]
     return interval_ret
-
-def get_bar_data(sym,interval,lookback):
-    frame = pd.DataFrame(client.get_historical_klines(sym,interval,lookback + ' day ago UTC'))
-    frame = frame.iloc[:,:6]
-    frame.columns = ['Time','Open','High','Low','Close','Volume']
-    frame = frame.set_index('Time')
-    frame.index = pd.to_datetime(frame.index, unit='ms')
-    frame = frame.astype(float)
-    return frame
 
 def applytechnical(df):
     df['rsi'] = ta.momentum.rsi(df.Close,window=14)
@@ -146,17 +135,4 @@ def get_report_crypto():
     messenger.lineSendText(all_text,token_noti)
 
 def datetimeUtcNow():
-    return datetime.utcnow().replace(tzinfo=timezone.utc).timestamp()
-
-def genTimeInterval():
-    time_bar_list = []
-    interval_list = interval_find(sv.interval_candle)
-    now_utc = datetime.utcnow().replace(tzinfo=timezone.utc)
-    if interval_list[1] == 'h':
-        now_utc = now_utc.replace(minute=0, second=0, microsecond=0)
-        i = 4
-        for x in range(i):
-            a = int(interval_list[0])*x
-            now_utc = now_utc + timedelta(hours=a)
-            time_bar_list.append(now_utc.timestamp())
-    return time_bar_list
+    return datetime.utcnow()
