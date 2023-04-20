@@ -18,6 +18,7 @@ def main():
             fn.delay(2)
         if fn.bar_time(sv.interval_candle,fn.datetimeUtcNow()):
                 fn.delay(60)
+                print('Prictrack')
                 pricetrack.pricetrack()
         fn.delay(1)
 

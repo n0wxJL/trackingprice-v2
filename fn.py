@@ -35,6 +35,7 @@ def time_next_day():
         return False
 
 def bar_time(interval,server_time):
+    print('bar_time()')
     start_time = dt.datetime.combine(server_time, dt.time.min) # + dt.timedelta(hours=7)
     if not next_bar:
         interval_text = interval_find(interval)
