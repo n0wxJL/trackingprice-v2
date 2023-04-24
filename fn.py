@@ -1,4 +1,4 @@
-from http import client
+# from http import client
 import time
 import datetime as dt
 from datetime import datetime, timezone, timedelta
@@ -112,18 +112,12 @@ def get_report_crypto():
             stk_pd = yf.Ticker(sym)
             sym = i
             cur_sym = cur_symbol(stk_pd.fast_info['currency'])
-            frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
-            frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
+            frame = pd.DataFrame(stk_pd.history(period="2mo",interval='1d')).reset_index()
             frame = frame.iloc[:,:6]
-            frame2 = frame2.iloc[:,:6]
             frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
             frame.sort_values(by='Date',ascending=True,inplace=True)
-            frame2['Date'] = pd.to_datetime(frame2['Date'].dt.strftime('%Y-%m-%d'))
-            frame2.sort_values(by='Date',ascending=True,inplace=True)
             applytechnical(frame)
-            applytechnical(frame2)
-            # print(frame)
-            if frame.empty == False and frame2.empty == False:
+            if frame.empty == False:
                 pr_chg = ((frame['Close'].iloc[-1] - frame['Close'].iloc[-2])/frame['Close'].iloc[-2])*100
                 close_chg = frame['Close'].iloc[-1]
                 rsi_chg = frame['rsi'].iloc[-1]

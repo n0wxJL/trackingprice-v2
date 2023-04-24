@@ -87,7 +87,7 @@ coin_list = {
     "name":"ZCX",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "SNX":{
     "name":"SNX",
@@ -123,6 +123,6 @@ coin_list = {
     "name":"MATIC",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     }
 }

@@ -19,7 +19,7 @@ def pricetrack():
             stk_pd = yf.Ticker(sym)
             sym = i
             cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
-            frame = pd.DataFrame(stk_pd.history(period='4d',interval='1h')).reset_index()
+            frame = pd.DataFrame(stk_pd.history(period='2d',interval='1h')).reset_index()
             frame = frame.iloc[:,:6]
             if frame.empty == False:
                 prc_close = frame['Close'].iloc[-1]
@@ -37,3 +37,5 @@ def pricetrack():
     # else:
     #     print(stats)
     #     return
+
+print(pricetrack())
