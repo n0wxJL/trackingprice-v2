@@ -14,9 +14,11 @@ token_noti = sv.token_noti_status
 messenger = lib
 
 lookback = '300'
+minfullday = 1440
 
 next_day = []
 next_bar = []
+cycle_time = []
 fmt = '%Y-%m-%d %H:%M:%S'
 fmt_min = '%Y-%m-%d %H:%M'
 
@@ -131,3 +133,28 @@ def get_report_crypto():
 
 def datetimeUtcNow():
     return datetime.utcnow()
+
+
+def alert_price(interval,time_now):
+    time_now = dt.datetime.strptime(dt.datetime.strftime(time_now,fmt_min),fmt_min)
+    time_start_day = dt.datetime.combine(time_now, dt.time.min)
+    count = int(minfullday/(int(interval[0])*60))
+    if not cycle_time:
+        for i in range(count):
+            timeapp = time_start_day + dt.timedelta(hours=int(i*int(interval[0])))
+            if timeapp > time_now:
+                cycle_time.append(timeapp)
+    else:
+        print('have a cycletime')
+    cycle_time_len = len(cycle_time)
+    for i in range(cycle_time_len):
+        if time_now >= cycle_time[i]:
+            # print(i,cycle_time[i])
+            cycle_time.pop(i)
+            return True
+    return False
+
+
+# while True:
+#     delay(1)
+#     alert_price(sv.interval_candle,datetimeUtcNow())

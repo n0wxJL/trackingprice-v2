@@ -37,5 +37,3 @@ def pricetrack():
     # else:
     #     print(stats)
     #     return
-
-print(pricetrack())
