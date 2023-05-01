@@ -153,8 +153,3 @@ def alert_price(interval,time_now):
             cycle_time.pop(i)
             return True
     return False
-
-
-# while True:
-#     delay(1)
-#     alert_price(sv.interval_candle,datetimeUtcNow())

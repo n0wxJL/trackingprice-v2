@@ -7,15 +7,15 @@ import setup_var as sv
 
 def main():
     while True:
-        # if fn.time_next_day():
-        #     fn.delay(60)
-        #     gmwhale.gmwhale()
-        #     fn.get_report_crypto()
-        #     fn.delay(2)
-        #     fn_stock.get_report_stock()
-        #     fn.delay(2)
-        #     fn_stock.get_exchangerate()
-        #     fn.delay(2)
+        if fn.time_next_day():
+            fn.delay(60)
+            gmwhale.gmwhale()
+            fn.get_report_crypto()
+            fn.delay(2)
+            fn_stock.get_report_stock()
+            fn.delay(2)
+            fn_stock.get_exchangerate()
+            fn.delay(2)
         # if fn.bar_time(sv.interval_candle,fn.datetimeUtcNow()):
         #         fn.delay(60)
         #         print('Pricetrack')
