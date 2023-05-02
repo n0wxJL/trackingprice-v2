@@ -2,7 +2,7 @@
 
 # kline interval
 interval = '1d'
-interval_candle = '1h'
+interval_candle = '4h'
 
 # for exchange rate url
 url = 'https://th.investing.com/currencies/usd-thb'
