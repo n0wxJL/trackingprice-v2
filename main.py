@@ -16,11 +16,6 @@ def main():
             fn.delay(2)
             fn_stock.get_exchangerate()
             fn.delay(2)
-        # if fn.bar_time(sv.interval_candle,fn.datetimeUtcNow()):
-        #         fn.delay(60)
-        #         print('Pricetrack')
-        #         pricetrack.pricetrack()
-        
         if fn.alert_price(sv.interval_candle,fn.datetimeUtcNow()):
             fn.delay(60)
             print('Pricetrack')
