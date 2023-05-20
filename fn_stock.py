@@ -7,6 +7,8 @@ import yfinance as yf
 import ta
 import fn
 import lib
+from datetime import datetime
+# import matplotlib.pyplot as plt
 
 token_noti = sv.token_noti_status
 messenger = lib
@@ -25,7 +27,7 @@ def get_exchangerate():
 
 def get_report_stock():
     print('get_report_stock()')
-    all_text = '\n--Report Stock--\n'
+    all_text = '\nReport Stock\n'
     for i in coin_list.stock_list:
         if coin_list.stock_list[i]['open'] == '1':
             sym = coin_list.stock_list[i]['name']
@@ -77,3 +79,39 @@ def get_action_indicator(df):
     elif(float(df['rsi'].iloc[-1])<30):
         alltext = alltext + '▲RSI_OS👍\n'
     return alltext
+
+
+def divi():
+    for i in coin_list.stock_list:
+        if coin_list.stock_list[i]['open'] == '1':
+            sym = coin_list.stock_list[i]['name']
+            precis = coin_list.stock_list[i]['precision']
+            print(sym)
+            stk_pd = yf.Ticker(sym)
+            print(stk_pd.dividends)
+
+
+import requests, lxml
+from lxml import html
+from selenium import webdriver
+
+def topyield():
+    url = 'https://www.set.or.th/th/market/index/sethd/overview'
+    all_text = 'Top Yield:'
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36'}
+    r = requests.get(url,headers=headers)
+    print(r.status_code)
+    # ss = soup(r.content,'html.parser')
+    # print(soup)
+    # result = soup.findAll('div',{'class':['symbol','pt-1']})
+    # print(result)
+    browser = webdriver.Chrome()
+    browser.get(url)
+    html = browser.page_source
+    so = soup(html,'html.parser')
+    # print(s)
+    ret = so.find_all('div',{'class':['symbol pt-1']})
+    for val in ret:
+        all_text = all_text+'\n'+(val.text).strip()
+    # print(all_text)
+    messenger.lineSendText(all_text,token_noti)

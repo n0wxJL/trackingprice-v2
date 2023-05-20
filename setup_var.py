@@ -10,7 +10,8 @@ urlstk = 'https://finance.yahoo.com/quote/'
 
 # token Line Notify
 token_noti = 'qLyPnPXQ8LUXGhOORTaS9qgsEqxAsnktH5f0bL7YXf5'
-token_noti_status = 'qLyPnPXQ8LUXGhOORTaS9qgsEqxAsnktH5f0bL7YXf5' #'s1klvQO4Gp0QFL3YOG1kj2uakXIAD0C0AUfUwE0zYxi'
+# token_noti_status = 'qLyPnPXQ8LUXGhOORTaS9qgsEqxAsnktH5f0bL7YXf5' #main
+token_noti_status = 's1klvQO4Gp0QFL3YOG1kj2uakXIAD0C0AUfUwE0zYxi' #test
 
 # gmwhale qoute
 txt_gm = ['Dont trust, Just verify',
