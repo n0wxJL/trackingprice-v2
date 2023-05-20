@@ -16,11 +16,11 @@ def main():
             fn.delay(2)
             fn_stock.get_exchangerate()
             fn.delay(2)
+            fn_stock.topyield()
         if fn.alert_price(sv.interval_candle,fn.datetimeUtcNow()):
             fn.delay(60)
             print('Pricetrack')
             pricetrack.pricetrack()
-        fn_stock.topyield()
         fn.delay(1)
 
 if __name__ == "__main__":
