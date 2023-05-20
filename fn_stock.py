@@ -113,5 +113,3 @@ def topyield():
         all_text = all_text+'\n'+(val.text).strip()
     # print(all_text)
     messenger.lineSendText(all_text,token_noti)
-
-topyield()
