@@ -20,7 +20,7 @@ def main():
             fn.delay(60)
             print('Pricetrack')
             pricetrack.pricetrack()
-        # fn_stock.topyield()
+        fn_stock.topyield()
         fn.delay(1)
 
 if __name__ == "__main__":
