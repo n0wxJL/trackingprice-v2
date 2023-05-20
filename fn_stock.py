@@ -109,7 +109,6 @@ def topyield():
     browser.get(url)
     html = browser.page_source
     so = soup(html,'html.parser')
-    # print(s)
     ret = so.find_all('div',{'class':['symbol pt-1']})
     for val in ret:
         all_text = all_text+'\n'+(val.text).strip()
