@@ -8,7 +8,12 @@ import ta
 import fn
 import lib
 from datetime import datetime
-# import matplotlib.pyplot as plt
+import requests, lxml
+from lxml import html
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import os
+
 
 token_noti = sv.token_noti_status
 messenger = lib
@@ -81,31 +86,25 @@ def get_action_indicator(df):
     return alltext
 
 
-def divi():
-    for i in coin_list.stock_list:
-        if coin_list.stock_list[i]['open'] == '1':
-            sym = coin_list.stock_list[i]['name']
-            precis = coin_list.stock_list[i]['precision']
-            print(sym)
-            stk_pd = yf.Ticker(sym)
-            print(stk_pd.dividends)
+def load_chrome_driver(proxy):
+      options = Options()
+      options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+      options.add_argument('--headless')
+      options.add_argument('--disable-gpu')
+      options.add_argument('--no-sandbox')
+      options.add_argument('--remote-debugging-port=9222')
+      options.add_argument('--proxy-server='+proxy)
 
+      return webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), chrome_options=options)
 
-import requests, lxml
-from lxml import html
-from selenium import webdriver
 
 def topyield():
     url = 'https://www.set.or.th/th/market/index/sethd/overview'
-    all_text = 'Top Yield:'
+    all_text = '\nTop Yield'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36'}
     r = requests.get(url,headers=headers)
     print(r.status_code)
-    # ss = soup(r.content,'html.parser')
-    # print(soup)
-    # result = soup.findAll('div',{'class':['symbol','pt-1']})
-    # print(result)
-    browser = webdriver.Chrome()
+    browser = load_chrome_driver('')
     browser.get(url)
     html = browser.page_source
     so = soup(html,'html.parser')
@@ -114,3 +113,5 @@ def topyield():
         all_text = all_text+'\n'+(val.text).strip()
     # print(all_text)
     messenger.lineSendText(all_text,token_noti)
+
+topyield()
