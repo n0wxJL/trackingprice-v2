@@ -30,10 +30,3 @@ def pricetrack():
     print(all_text)
     stats = messenger.lineSendText(all_text,token_noti)
     return stats
-    # if stats != 200:
-    #     print(stats)
-    #     time.sleep(2)
-    #     pricetrack()
-    # else:
-    #     print(stats)
-    #     return
