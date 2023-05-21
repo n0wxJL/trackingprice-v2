@@ -100,6 +100,8 @@ def load_chrome_driver(proxy):
 
 def topyield():
     url = 'https://www.set.or.th/th/market/index/sethd/overview'
+    count = 0
+    count_page = 0
     all_text = '\nTop Dividend Yield'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36'}
     r = requests.get(url,headers=headers)
@@ -111,17 +113,22 @@ def topyield():
     ret = so.find_all('div',{'class':['symbol pt-1']})
 
     for val in ret:
+        count = count + 1
         ticker = (val.text).strip()+'.BK'
         ticker_y = yf.Ticker(ticker)
         pricelast = price_last(ticker_y,'3d','1d','2')
         yieldlast = '{:.{precis}f}'.format(ticker_y.info.get('lastDividendValue'), precis=2) 
         yieldrate = '{:.{precis}f}'.format((float(ticker_y.info.get('trailingAnnualDividendYield'))*100),precis=2) 
         all_text = all_text+'\n'+'▸{}\nPrice: {}\nYield: {}\nRate: {}%\n-----------'.format(ticker,pricelast,yieldlast,yieldrate)
-    messenger.lineSendText(all_text,token_noti)
+        if count % 10 == 0:
+            count_page = count_page + 1
+            all_text = '[{}]'.format(count_page)+all_text
+            print(all_text)
+            messenger.lineSendText(all_text,token_noti)
+            all_text = '\nTop Dividend Yield'
+    # messenger.lineSendText(all_text,token_noti)
 
 
 def price_last(ticker_his,period,interval,precis):
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
     return '{:.{precis}f}'.format(frame['Close'].iloc[-1],precis=precis)
-
-# topyield()
