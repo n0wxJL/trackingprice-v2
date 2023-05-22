@@ -111,7 +111,7 @@ def topyield():
     html = browser.page_source
     so = soup(html,'html.parser')
     ret = so.find_all('div',{'class':['symbol pt-1']})
-
+    df = {'symbol':[],'last':[],'yield':[],'rate':[]}
     for val in ret:
         count = count + 1
         ticker = (val.text).strip()+'.BK'
@@ -119,15 +119,26 @@ def topyield():
         pricelast = price_last(ticker_y,'3d','1d','2')
         yieldlast = '{:.{precis}f}'.format(ticker_y.info.get('lastDividendValue'), precis=2) 
         yieldrate = '{:.{precis}f}'.format((float(ticker_y.info.get('trailingAnnualDividendYield'))*100),precis=2) 
-        all_text = all_text+'\n'+'▸{}\nPrice: {}\nYield: {}\nRate: {}%\n-----------'.format(ticker,pricelast,yieldlast,yieldrate)
-        if count % 10 == 0:
-            count_page = count_page + 1
-            all_text = '[{}]'.format(count_page)+all_text
-            print(all_text)
-            messenger.lineSendText(all_text,token_noti)
-            all_text = '\nTop Dividend Yield'
-    # messenger.lineSendText(all_text,token_noti)
-
+        df['symbol'].append(ticker)
+        df['last'].append(pricelast)
+        df['yield'].append(yieldlast)
+        df['rate'].append(yieldrate)
+    df1 = pd.DataFrame(df).sort_values(by=['yield'],ascending=False).reset_index()
+    # print(df1)
+    for row in range(len(df1)):
+        print(df1.loc[row,'symbol'])
+        all_text = all_text+'\n'+'▸{}\nPrice: {}\nYield: {}\nRate: {}%\n-----------'.format(df1.loc[row,'symbol'],df1.loc[row,'last'],df1.loc[row,'yield'],df1.loc[row,'rate'])
+        if row == 9:
+            break
+        # all_text = all_text+'\n'+'▸{}\nPrice: {}\nYield: {}\nRate: {}%\n-----------'.format(str(d['symbol']),str(d['pricelast']),str(d['yield']),str(d['rate']))
+        # if count % 10 == 0:
+        #     count_page = count_page + 1
+        #     all_text = '[{}]'.format(count_page)+all_text
+        #     print(all_text)
+        #     messenger.lineSendText(all_text,token_noti)
+        #     all_text = '\nTop Dividend Yield'
+    print(all_text)
+    messenger.lineSendText(all_text,token_noti)
 
 def price_last(ticker_his,period,interval,precis):
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
