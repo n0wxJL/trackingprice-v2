@@ -10,7 +10,8 @@ def main():
         if fn.time_next_day():
             fn.delay(60)
             gmwhale.gmwhale()
-            fn.get_report_crypto()
+            # fn.get_report_crypto()
+            fn.get_report_crypto_v2()
             fn.delay(2)
             fn_stock.get_report_stock()
             fn.delay(2)
