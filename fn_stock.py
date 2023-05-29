@@ -19,7 +19,6 @@ token_noti = sv.token_noti_status
 messenger = lib
 
 def get_exchangerate():
-    print('get_exchangerate()')
     all_text = ''
     reqs = Request(url=sv.url,headers={'User-Agent': 'Mozilla/5.0'})
     webopen = req(reqs)
@@ -27,12 +26,12 @@ def get_exchangerate():
     webopen.close()
     data = soup(page_html,'html.parser')
     temp = data.findAll('span',{'data-test':'instrument-price-last'})
-    all_text = '\nUSDTHB: '+temp[0].text
+    all_text = '\n►USDTHB: '+temp[0].text
     messenger.lineSendText(all_text,token_noti)
 
 def get_report_stock():
     print('get_report_stock()')
-    all_text = '\nReport Stock\n'
+    all_text = '\n►List Stock◄\n'
     for i in coin_list.stock_list:
         if coin_list.stock_list[i]['open'] == '1':
             sym = coin_list.stock_list[i]['name']
@@ -60,7 +59,7 @@ def get_report_stock():
                 macd_chg = df['macd'].iloc[-1]
                 cdc_chg = df['cdc'].iloc[-1]
                 take_action = get_action_indicator(df)
-                all_text = all_text + '▸{}:\nPrice: {}{}\nCHG(1D): {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
+                all_text = all_text + '►{}:\nPrice: {}{}\nCHG(1D): {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
     messenger.lineSendText(all_text,token_noti)
 
@@ -101,8 +100,7 @@ def load_chrome_driver(proxy):
 def topyield():
     url = 'https://www.set.or.th/th/market/index/sethd/overview'
     count = 0
-    count_page = 0
-    all_text = '\nTop Dividend Yield'
+    all_text = '\n►Top Dividend Yield◄'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36'}
     r = requests.get(url,headers=headers)
     print('status site:',r.status_code)
@@ -127,16 +125,9 @@ def topyield():
     # print(df1)
     for row in range(len(df1)):
         print(df1.loc[row,'symbol'])
-        all_text = all_text+'\n'+'▸{}\nPrice: {}\nYield: {}\nRate: {}%\n-----------'.format(df1.loc[row,'symbol'],df1.loc[row,'last'],df1.loc[row,'yield'],df1.loc[row,'rate'])
+        all_text = all_text+'\n'+'►{}\nPrice: {}\nYield: {}\nRate: {}%\n-----------'.format(df1.loc[row,'symbol'],df1.loc[row,'last'],df1.loc[row,'yield'],df1.loc[row,'rate'])
         if row == 9:
             break
-        # all_text = all_text+'\n'+'▸{}\nPrice: {}\nYield: {}\nRate: {}%\n-----------'.format(str(d['symbol']),str(d['pricelast']),str(d['yield']),str(d['rate']))
-        # if count % 10 == 0:
-        #     count_page = count_page + 1
-        #     all_text = '[{}]'.format(count_page)+all_text
-        #     print(all_text)
-        #     messenger.lineSendText(all_text,token_noti)
-        #     all_text = '\nTop Dividend Yield'
     print(all_text)
     messenger.lineSendText(all_text,token_noti)
 

@@ -9,7 +9,6 @@ import re
 import ta
 import yfinance as yf
 import lib
-import traceback
 
 token_noti = sv.token_noti_status
 messenger = lib
@@ -105,7 +104,7 @@ def cur_symbol(cur):
         return '฿'
 
 def get_report_crypto():
-    all_text = '\nList Crypto\n'
+    all_text = '\n►List Crypto◄\n'
     for i in coin_list.coin_list:
         if coin_list.coin_list[i]['open'] == '1':
             sym = coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency']
@@ -127,7 +126,7 @@ def get_report_crypto():
                 cdc_chg = frame['cdc'].iloc[-1]
                 take_action = get_action_indicator(frame)
                 close_chg_txt = '{:.{precis}f}'.format(close_chg, precis=precis)
-                all_text = all_text + '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
+                all_text = all_text + '►{}:\nPrice: {}{}\nCHG: {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
     print(all_text)
     messenger.lineSendText(all_text,token_noti)
 
@@ -154,48 +153,43 @@ def alert_price(interval,time_now):
             return True
     return False
 
-def price_last(ticker_his,period,interval,precis):
+def price_last(ticker_his,period,interval,precis,iloc):
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
-    return '{:.{precis}f}'.format(frame['Close'].iloc[-1],precis=precis)
+    return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
 
-def price_change_day(ticker_his,period,interval,precis,last_price):
+def price_change_percent(ticker_his,period,interval,precis,last_price):
     lp = float(last_price)
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
-    print(frame['Close'].iloc[-2])
-    return '{:.{precis}f}'.format(((lp - frame['Close'].iloc[-2])/frame['Close'].iloc[-2])*100,precis=precis)
+    return '{:.{precis}f}'.format(((lp - frame['Open'].iloc[-2])/frame['Open'].iloc[-2])*100,precis=precis)
 
-# def get_report_crypto_v2():
-#     all_text = '\nList Crypto\n'
-#     for i in coin_list.coin_list:
-#         if coin_list.coin_list[i]['open'] == '1':
-#             sym = coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency']
-#             precis = coin_list.coin_list[i]['precision']
-#             stk_pd = yf.Ticker(sym)
-#             sym = i
-#             try:
-#                 last_price = price_last(stk_pd,'3d','1d',precis)
-#                 price_chg1 = price_change_day(stk_pd,'1wk','1d',precis,last_price)
-#                 price_chgWeek = price_change_day(stk_pd,'1mo','1wk',precis,last_price)
-#                 print(sym,last_price,price_chg1,price_chgWeek)
-#             except Exception:
-#                 pass
+def price_ret_dataframe(ticker_his,period,interval):
+    dataframe = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
+    dataframe = dataframe.iloc[:,:6]
+    dataframe['Date'] = pd.to_datetime(dataframe['Date'].dt.strftime('%Y-%m-%d'))
+    dataframe.sort_values(by='Date',ascending=True,inplace=True)
+    return dataframe
 
-            # cur_sym = cur_symbol(stk_pd.fast_info['currency'])
-            # frame = pd.DataFrame(stk_pd.history(period="2mo",interval='1d')).reset_index()
-            # frame = frame.iloc[:,:6]
-            # frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-            # frame.sort_values(by='Date',ascending=True,inplace=True)
-            # if frame.empty == False:
-            #     applytechnical(frame)
-            #     pr_chg = ((frame['Close'].iloc[-1] - frame['Close'].iloc[-2])/frame['Close'].iloc[-2])*100
-            #     close_chg = frame['Close'].iloc[-1]
-            #     rsi_chg = frame['rsi'].iloc[-1]
-            #     macd_chg = frame['macd'].iloc[-1]
-            #     cdc_chg = frame['cdc'].iloc[-1]
-            #     take_action = get_action_indicator(frame)
-            #     close_chg_txt = '{:.{precis}f}'.format(close_chg, precis=precis)
-            #     all_text = all_text + '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
-#     print(all_text)
-#     # messenger.lineSendText(all_text,token_noti)
-
-# get_report_crypto_v2()
+def get_report_crypto_v2():
+    all_text = '\n►List Crypto◄\n'
+    for i in coin_list.coin_list:
+        if coin_list.coin_list[i]['open'] == '1':
+            cur_sym = cur_symbol(coin_list.coin_list[i]['currency'])
+            sym = coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency']
+            precis = coin_list.coin_list[i]['precision']
+            stk_pd = yf.Ticker(sym)
+            sym = i
+            last_price = price_last(stk_pd,'3d','1d',precis,-1)
+            price_close_day = price_last(stk_pd,'3d','1d',precis,-2)
+            price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day)
+            price_chg_month = price_change_percent(stk_pd,'3mo','1mo',precis,price_close_day)
+            print(sym,last_price,price_close_day,price_chg_day,price_chg_month)
+            dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
+            if dataframe.empty == False:
+                applytechnical(dataframe)
+                # take_action = get_action_indicator(dataframe)
+                rsi_chg = dataframe['rsi'].iloc[-1]
+                macd_chg = dataframe['macd'].iloc[-1]
+                cdc_chg = dataframe['cdc'].iloc[-1]
+                all_text = all_text + '▸{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg)
+    print(all_text)
+    messenger.lineSendText(all_text,token_noti)

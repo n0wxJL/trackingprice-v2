@@ -26,7 +26,7 @@ def pricetrack():
                 prc_pre_close = frame['Close'].iloc[-1*(int(tf_num[0])+1)]
                 prc_chg = (prc_close-prc_pre_close)/prc_pre_close*100
                 prc_close_txt = '{:.{precis}f}'.format(prc_close, precis=precis)
-                all_text += '▸{}:\nPrice: {}{}\nCHG: {:,.2f}%\n-----------\n'.format(sym,cur_sym,prc_close_txt,prc_chg)
+                all_text += '►{}:\nPrice: {}{}\nCHG: {:,.2f}%\n-----------\n'.format(sym,cur_sym,prc_close_txt,prc_chg)
     print(all_text)
     stats = messenger.lineSendText(all_text,token_noti)
     return stats
