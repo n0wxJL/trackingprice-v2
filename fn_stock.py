@@ -131,10 +131,6 @@ def topyield():
     print(all_text)
     messenger.lineSendText(all_text,token_noti)
 
-# def price_last(ticker_his,period,interval,precis):
-#     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
-#     return '{:.{precis}f}'.format(frame['Close'].iloc[-1],precis=precis)
-
 def price_last(ticker_his,period,interval,precis,iloc):
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
     return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
@@ -159,13 +155,13 @@ def get_report_stock_v2():
             precis = coin_list.stock_list[i]['precision']
             print(sym)
             stk_pd = yf.Ticker(sym)
-            sym = i
+            # sym = i
             cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
             last_price = price_last(stk_pd,'3d','1d',precis,-1)
             price_close_day = price_last(stk_pd,'3d','1d',precis,-2)
             price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day)
             price_chg_month = price_change_percent(stk_pd,'3mo','1mo',precis,price_close_day)
-            print(sym,last_price,price_close_day,price_chg_day,price_chg_month)
+            # print(sym,last_price,price_close_day,price_chg_day,price_chg_month)
             dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
             if dataframe.empty == False:
                 applytechnical(dataframe)
@@ -173,8 +169,6 @@ def get_report_stock_v2():
                 rsi_chg = dataframe['rsi'].iloc[-1]
                 macd_chg = dataframe['macd'].iloc[-1]
                 cdc_chg = dataframe['cdc'].iloc[-1]
-                # all_text = all_text + '▸{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg)
+                all_text = all_text + '►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg)
     print(all_text)
-    # messenger.lineSendText(all_text,token_noti)
-
-# get_report_stock_v2()
+    messenger.lineSendText(all_text,token_noti)

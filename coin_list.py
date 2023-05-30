@@ -123,6 +123,12 @@ coin_list = {
     "name":"MATIC",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
+    },
+    "CAKE":{
+    "name":"CAKE",
+    "currency":"USD",
+    "precision":"3",
+    "open":"1"
     }
 }
