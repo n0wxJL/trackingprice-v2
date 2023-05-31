@@ -10,16 +10,16 @@ def main():
         if fn.time_next_day():
             fn.delay(60)
             gmwhale.gmwhale()
-            fn.get_report_crypto_v2()
             fn.delay(2)
             fn.get_report_crypto_v2()
             fn.delay(2)
-            fn_stock.get_exchangerate()
+            fn_stock.get_report_stock_v2()
             fn.delay(2)
             fn_stock.topyield()
+            fn.delay(2)
+            fn_stock.get_exchangerate()
         if fn.alert_price(sv.interval_candle,fn.datetimeUtcNow()):
             fn.delay(60)
-            print('Pricetrack')
             pricetrack.pricetrack()
         fn.delay(1)
 

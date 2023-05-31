@@ -9,6 +9,7 @@ import re
 import ta
 import yfinance as yf
 import lib
+import math
 
 token_noti = sv.token_noti_status
 messenger = lib
@@ -169,8 +170,29 @@ def price_ret_dataframe(ticker_his,period,interval):
     dataframe.sort_values(by='Date',ascending=True,inplace=True)
     return dataframe
 
+def page_print(text,maxNum,headText):
+    all_text = headText
+    count = 1
+    inx = 0
+    maxPage = math.ceil(len(text)/maxNum)
+    print(text)
+    for i in range(maxPage):
+        while count <= maxNum:
+            all_text = all_text + text[inx]
+            if count == maxNum or inx+1==len(text):
+                all_text = '['+str(i+1)+']'+all_text
+                print(all_text)
+                messenger.lineSendText(all_text,token_noti)
+                all_text = headText
+                count = 1
+                inx = inx + 1
+                break
+            count = count + 1
+            inx = inx + 1
+
 def get_report_crypto_v2():
     all_text = '\n►List Crypto◄\n'
+    ls = []
     for i in coin_list.coin_list:
         if coin_list.coin_list[i]['open'] == '1':
             cur_sym = cur_symbol(coin_list.coin_list[i]['currency'])
@@ -178,7 +200,7 @@ def get_report_crypto_v2():
             precis = coin_list.coin_list[i]['precision']
             stk_pd = yf.Ticker(sym)
             sym = i
-            last_price = price_last(stk_pd,'3d','1d',precis,-1)
+            # last_price = price_last(stk_pd,'3d','1d',precis,-1)
             price_close_day = price_last(stk_pd,'3d','1d',precis,-2)
             price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day)
             price_chg_month = price_change_percent(stk_pd,'3mo','1mo',precis,price_close_day)
@@ -190,6 +212,7 @@ def get_report_crypto_v2():
                 rsi_chg = dataframe['rsi'].iloc[-1]
                 macd_chg = dataframe['macd'].iloc[-1]
                 cdc_chg = dataframe['cdc'].iloc[-1]
-                all_text = all_text + '►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg)
-    print(len(all_text))
-    messenger.lineSendText(all_text,token_noti)
+                # all_text = all_text + '►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg)
+                ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg))
+    page_print(ls,8,all_text)
+    # messenger.lineSendText(all_text,token_noti)
