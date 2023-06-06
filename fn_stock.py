@@ -84,7 +84,6 @@ def get_action_indicator(df):
         alltext = alltext + '▲RSI_OS👍\n'
     return alltext
 
-
 def load_chrome_driver(proxy):
       options = Options()
       options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
@@ -94,7 +93,6 @@ def load_chrome_driver(proxy):
       options.add_argument('--remote-debugging-port=9222')
       options.add_argument('--proxy-server='+proxy)
       return webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), chrome_options=options)
-
 
 def topyield():
     url = 'https://www.set.or.th/th/market/index/sethd/overview'
@@ -113,7 +111,7 @@ def topyield():
         count = count + 1
         ticker = (val.text).strip()+'.BK'
         ticker_y = yf.Ticker(ticker)
-        pricelast = price_last(ticker_y,'3d','1d','2',-1)
+        pricelast = price_last(ticker_y,'1wk','1d','2',-1)
         yieldlast = '{:.{precis}f}'.format(ticker_y.info.get('lastDividendValue'), precis=2) 
         yieldrate = '{:.{precis}f}'.format((float(ticker_y.info.get('trailingAnnualDividendYield'))*100),precis=2) 
         df['symbol'].append(ticker)
@@ -132,7 +130,7 @@ def topyield():
 
 def price_last(ticker_his,period,interval,precis,iloc):
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
-    return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
+    return '{:.{precis}f}'.format(frame['Open'].iloc[iloc],precis=precis)
 
 def price_change_percent(ticker_his,period,interval,precis,last_price):
     lp = float(last_price)
@@ -150,27 +148,24 @@ def get_report_stock_v2():
     all_text = '\n►List Stock◄\n'
     ls = []
     for i in coin_list.stock_list:
-        if coin_list.stock_list[i]['open'] == '1':
-            sym = coin_list.stock_list[i]['name']
-            precis = coin_list.stock_list[i]['precision']
-            # print(sym)
-            stk_pd = yf.Ticker(sym)
-            # sym = i
-            cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
-            # last_price = price_last(stk_pd,'3d','1d',precis,-1)
-            price_close_day = price_last(stk_pd,'3d','1d',precis,-2)
-            price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day)
-            price_chg_month = price_change_percent(stk_pd,'3mo','1mo',precis,price_close_day)
-            # print(sym,last_price,price_close_day,price_chg_day,price_chg_month)
-            dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
-            if dataframe.empty == False:
-                applytechnical(dataframe)
-                # take_action = get_action_indicator(dataframe)
-                rsi_chg = dataframe['rsi'].iloc[-1]
-                macd_chg = dataframe['macd'].iloc[-1]
-                cdc_chg = dataframe['cdc'].iloc[-1]
-                # all_text = all_text + '►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg)
-                ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg))
-    # print(all_text)
+        try:
+            if coin_list.stock_list[i]['open'] == '1':
+                sym = coin_list.stock_list[i]['name']
+                precis = coin_list.stock_list[i]['precision']
+                stk_pd = yf.Ticker(sym)
+                cur_sym = fn.cur_symbol(coin_list.stock_list[i]['currency'])
+                price_close_day = price_last(stk_pd,'7d','1d',precis,-1)
+                price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day)
+                price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day)
+                print(sym,price_close_day,price_chg_day,price_chg_month)
+                dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
+                if dataframe.empty == False:
+                    applytechnical(dataframe)
+                    # take_action = get_action_indicator(dataframe)
+                    rsi_chg = dataframe['rsi'].iloc[-1]
+                    macd_chg = dataframe['macd'].iloc[-1]
+                    cdc_chg = dataframe['cdc'].iloc[-1]
+                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg))
+        except:
+            pass
     fn.page_print(ls,8,all_text)
-    # messenger.lineSendText(all_text,token_noti)
