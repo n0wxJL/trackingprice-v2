@@ -75,16 +75,10 @@ coin_list = {
     "name":"OP",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "ARB":{
     "name":"ARB11841",
-    "currency":"USD",
-    "precision":"3",
-    "open":"1"
-    },
-    "ZCX":{
-    "name":"ZCX",
     "currency":"USD",
     "precision":"3",
     "open":"0"
@@ -93,34 +87,22 @@ coin_list = {
     "name":"SNX",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
-    },
-    "VELA":{
-    "name":"VELA",
-    "currency":"USD",
-    "precision":"3",
     "open":"0"
     },
     "RPL":{
     "name":"RPL",
     "currency":"USD",
     "precision":"2",
-    "open":"1"
+    "open":"0"
     },
     "RDNT":{
     "name":"RDNT",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "UNI":{
     "name":"UNI7083",
-    "currency":"USD",
-    "precision":"3",
-    "open":"1"
-    },
-    "MATIC":{
-    "name":"MATIC",
     "currency":"USD",
     "precision":"3",
     "open":"0"
@@ -129,6 +111,6 @@ coin_list = {
     "name":"CAKE",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     }
 }

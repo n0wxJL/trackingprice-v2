@@ -130,7 +130,7 @@ def topyield():
 
 def price_last(ticker_his,period,interval,precis,iloc):
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
-    return '{:.{precis}f}'.format(frame['Open'].iloc[iloc],precis=precis)
+    return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
 
 def price_change_percent(ticker_his,period,interval,precis,last_price):
     lp = float(last_price)
@@ -154,7 +154,7 @@ def get_report_stock_v2():
                 precis = coin_list.stock_list[i]['precision']
                 stk_pd = yf.Ticker(sym)
                 cur_sym = fn.cur_symbol(coin_list.stock_list[i]['currency'])
-                price_close_day = price_last(stk_pd,'7d','1d',precis,-1)
+                price_close_day = price_last(stk_pd,'7d','1d',precis,-2)
                 price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day)
                 price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day)
                 print(sym,price_close_day,price_chg_day,price_chg_month)

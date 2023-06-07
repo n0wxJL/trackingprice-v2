@@ -136,7 +136,6 @@ def get_report_crypto():
 def datetimeUtcNow():
     return datetime.utcnow()
 
-
 def alert_price(interval,time_now):
     time_now = dt.datetime.strptime(dt.datetime.strftime(time_now,fmt_min),fmt_min)
     time_start_day = dt.datetime.combine(time_now, dt.time.min)
@@ -151,14 +150,13 @@ def alert_price(interval,time_now):
     cycle_time_len = len(cycle_time)
     for i in range(cycle_time_len):
         if time_now >= cycle_time[i]:
-            # print(i,cycle_time[i])
             cycle_time.pop(i)
             return True
     return False
 
 def price_last(ticker_his,period,interval,precis,iloc):
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
-    return '{:.{precis}f}'.format(frame['Open'].iloc[iloc],precis=precis)
+    return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
 
 def price_change_percent(ticker_his,period,interval,precis,last_price):
     lp = float(last_price)
@@ -177,7 +175,7 @@ def page_print(text,maxNum,headText):
     count = 1
     inx = 0
     maxPage = math.ceil(len(text)/maxNum)
-    print(text)
+    # print(text)
     for i in range(maxPage):
         while count <= maxNum:
             all_text = all_text + text[inx]
@@ -203,7 +201,7 @@ def get_report_crypto_v2():
                 precis = coin_list.coin_list[i]['precision']
                 stk_pd = yf.Ticker(sym)
                 sym = i
-                price_close_day = price_last(stk_pd,'7d','1d',precis,-1)
+                price_close_day = price_last(stk_pd,'7d','1d',precis,-2)
                 price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day)
                 price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day)
                 print(sym,price_close_day,price_chg_day,price_chg_month)

@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime, timezone, timedelta
 
 def lineSendText(message,token):
     payload = {'message' : message}
@@ -16,3 +17,10 @@ def lineSendSticker(stickerpack_id, sticker_id,token, message=' '):
         , headers={'Authorization' : 'Bearer {}'.format(token)}
         , params = payload)
     return r.status_code
+
+def datetimeUtcNow():
+    return datetime.utcnow()
+
+def nameOfWeek():
+    # return Monday,tuesday,Wednesday,Thursday,Friday,...
+    return datetimeUtcNow().strftime('%A')
