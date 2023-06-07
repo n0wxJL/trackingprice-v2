@@ -75,42 +75,48 @@ coin_list = {
     "name":"OP",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
     },
     "ARB":{
     "name":"ARB11841",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
     },
     "SNX":{
     "name":"SNX",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
     },
     "RPL":{
     "name":"RPL",
     "currency":"USD",
     "precision":"2",
-    "open":"0"
+    "open":"1"
     },
     "RDNT":{
     "name":"RDNT",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
     },
     "UNI":{
     "name":"UNI7083",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
     },
     "CAKE":{
     "name":"CAKE",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
+    },
+    "BNB":{
+    "name":"BNB",
+    "currency":"USD",
+    "precision":"2",
+    "open":"1"
     }
 }
