@@ -162,6 +162,7 @@ def price_last(ticker_his,period,interval,precis,iloc):
 def price_change_percent(ticker_his,period,interval,precis,last_price,iloc):
     lp = float(last_price)
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
+    frame = frame.iloc[:,:6]
     return '{:.{precis}f}'.format(((lp - frame['Open'].iloc[iloc])/frame['Open'].iloc[iloc])*100,precis=precis)
 
 def price_ret_dataframe(ticker_his,period,interval):
