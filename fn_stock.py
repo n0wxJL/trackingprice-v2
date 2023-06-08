@@ -130,12 +130,13 @@ def topyield():
 
 def price_last(ticker_his,period,interval,precis,iloc):
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
+    frame = frame.iloc[:,:6]
     return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
 
-def price_change_percent(ticker_his,period,interval,precis,last_price):
+def price_change_percent(ticker_his,period,interval,precis,last_price,iloc):
     lp = float(last_price)
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
-    return '{:.{precis}f}'.format(((lp - frame['Open'].iloc[-2])/frame['Open'].iloc[-2])*100,precis=precis)
+    return '{:.{precis}f}'.format(((lp - frame['Open'].iloc[iloc])/frame['Open'].iloc[iloc])*100,precis=precis)
 
 def price_ret_dataframe(ticker_his,period,interval):
     dataframe = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
@@ -147,6 +148,7 @@ def price_ret_dataframe(ticker_his,period,interval):
 def get_report_stock_v2():
     all_text = '\n►List Stock◄\n'
     ls = []
+    iloc_price = -2
     for i in coin_list.stock_list:
         try:
             if coin_list.stock_list[i]['open'] == '1':
@@ -154,9 +156,9 @@ def get_report_stock_v2():
                 precis = coin_list.stock_list[i]['precision']
                 stk_pd = yf.Ticker(sym)
                 cur_sym = fn.cur_symbol(coin_list.stock_list[i]['currency'])
-                price_close_day = price_last(stk_pd,'7d','1d',precis,-2)
-                price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day)
-                price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day)
+                price_close_day = price_last(stk_pd,'7d','1d',precis,iloc_price)
+                price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day,iloc_price)
+                price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,iloc_price)
                 print(sym,price_close_day,price_chg_day,price_chg_month)
                 dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
                 if dataframe.empty == False:

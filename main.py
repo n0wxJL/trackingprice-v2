@@ -9,7 +9,7 @@ import lib
 def main():
     while True:
         if fn.time_next_day():
-            fn.delay(60)
+            fn.delay(300)
             gmwhale.gmwhale()
             fn.delay(2)
             fn.get_report_crypto_v2()
