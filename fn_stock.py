@@ -149,7 +149,7 @@ def price_ret_dataframe(ticker_his,period,interval):
 def get_report_stock_v2():
     all_text = '\n►List Stock◄\n'
     ls = []
-    iloc_price = -2
+    iloc_price = -1
     for i in coin_list.stock_list:
         try:
             if coin_list.stock_list[i]['open'] == '1':
