@@ -26,7 +26,7 @@ def get_exchangerate():
     webopen.close()
     data = soup(page_html,'html.parser')
     temp = data.findAll('span',{'data-test':'instrument-price-last'})
-    all_text = '\n►USDTHB: '+temp[0].text
+    all_text = '\n►USD/THB: '+temp[0].text
     messenger.lineSendText(all_text,token_noti)
 
 def get_report_stock():

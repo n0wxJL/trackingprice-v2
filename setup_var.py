@@ -28,4 +28,6 @@ txt_gm = ['Dont trust, Just verify',
           'Hold on to what we are',
           'Every existing thing with reason',
           'When my time comes forget the wrong that I''ve done',
-          'Look up at the night sky,You will see the stars up there']
+          'Look up at the night sky,You will see the stars up there',
+          'คุณเชื่อเรื่องความบังเอิญไหม?'
+          ]

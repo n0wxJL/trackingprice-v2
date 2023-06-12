@@ -11,6 +11,7 @@ def main():
         if fn.time_next_day():
             fn.delay(300)
             gmwhale.gmwhale()
+            fn_stock.get_exchangerate()
             fn.delay(2)
             fn.get_report_crypto_v2()
             fn.delay(2)
@@ -19,7 +20,6 @@ def main():
             if lib.nameOfWeek() == 'Monday':
                 fn_stock.topyield()
             fn.delay(2)
-            fn_stock.get_exchangerate()
         if fn.alert_price(sv.interval_candle,fn.datetimeUtcNow()):
             fn.delay(60)
             pricetrack.pricetrack()

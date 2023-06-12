@@ -55,6 +55,12 @@ stock_list = {
     'currency':'BAHT',
     'precision':'2',
     'open':'1'
+    },
+    'CPF':{
+    'name':'CPF.BK',
+    'currency':'BAHT',
+    'precision':'2',
+    'open':'1'
     }
 }
 
@@ -93,7 +99,7 @@ coin_list = {
     "name":"RPL",
     "currency":"USD",
     "precision":"2",
-    "open":"1"
+    "open":"0"
     },
     "RDNT":{
     "name":"RDNT",
@@ -111,7 +117,7 @@ coin_list = {
     "name":"CAKE",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "BNB":{
     "name":"BNB",
