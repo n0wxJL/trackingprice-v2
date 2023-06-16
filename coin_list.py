@@ -124,5 +124,11 @@ coin_list = {
     "currency":"USD",
     "precision":"2",
     "open":"1"
+    },
+    "SD":{
+    "name":"SD",
+    "currency":"USD",
+    "precision":"3",
+    "open":"1"
     }
 }

@@ -2,14 +2,14 @@
 import time
 import datetime as dt
 from datetime import datetime, timezone, timedelta
+import re
+import math
 import pandas as pd
+import ta
 import coin_list
 import setup_var as sv
-import re
-import ta
 import yfinance as yf
 import lib
-import math
 
 token_noti = sv.token_noti_status
 messenger = lib
@@ -68,12 +68,14 @@ def bar_time(interval,server_time):
         return False
 
 def interval_find(interval):
+    """interval -- candle time frame"""
     interval_time = re.findall(r'\d+', interval)
     interval_text = re.sub('\d+', '', interval)
     interval_ret = [interval_time[0],interval_text]
     return interval_ret
 
 def applytechnical(df):
+    """df -- dataframe in coming"""
     df['rsi'] = ta.momentum.rsi(df.Close,window=14)
     df['macd'] = ta.trend.macd_diff(df.Close)
     df['ema12'] = ta.trend.ema_indicator(df.Close,window=12)
@@ -82,6 +84,7 @@ def applytechnical(df):
     df.dropna(inplace=True)
 
 def get_action_indicator(df):
+    """df -- dataframe in coming"""
     print('get_action_indicator()')
     alltext=''
     if (float(df['cdc'].iloc[-1])>0 and float(df['cdc'].iloc[-2]<0)):
@@ -96,9 +99,11 @@ def get_action_indicator(df):
 
 
 def delay(sec):
+    """sec -- second"""
     time.sleep(sec)
 
 def cur_symbol(cur):
+    """cur -- currency"""
     if cur == 'USD':
         return '$'
     elif cur == 'BAHT':
@@ -107,6 +112,7 @@ def cur_symbol(cur):
         return '$'
 
 def get_report_crypto():
+    """report crypto first version"""
     all_text = '\n►List Crypto◄\n'
     for i in coin_list.coin_list:
         if coin_list.coin_list[i]['open'] == '1':
@@ -134,6 +140,7 @@ def get_report_crypto():
     messenger.lineSendText(all_text,token_noti)
 
 def datetimeUtcNow():
+    """return date time now"""
     return datetime.utcnow()
 
 def alert_price(interval,time_now):
@@ -155,6 +162,13 @@ def alert_price(interval,time_now):
     return False
 
 def price_last(ticker_his,period,interval,precis,iloc):
+    """
+    ticker_his -- ticker symbol
+    period -- period
+    interval -- candle time frame
+    precis -- precision 
+    iloc -- loc index
+    """
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
     frame = frame.iloc[:,:6]
     return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
@@ -193,6 +207,7 @@ def page_print(text,maxNum,headText):
             inx = inx + 1
 
 def get_report_crypto_v2():
+    """report crypto version second"""
     all_text = '\n►List Crypto◄\n'
     ls = []
     iloc_price = -1
