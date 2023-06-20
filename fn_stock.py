@@ -147,8 +147,12 @@ def price_ret_dataframe(ticker_his,period,interval):
     return dataframe
 
 def get_report_stock_v2():
+    #return list of stock report
     all_text = '\n►List Stock◄\n'
     ls = []
+    pePrice = ''
+    trailPE = 0
+    forPE = 0
     iloc_price = -1
     for i in coin_list.stock_list:
         try:
@@ -168,7 +172,17 @@ def get_report_stock_v2():
                     rsi_chg = dataframe['rsi'].iloc[-1]
                     macd_chg = dataframe['macd'].iloc[-1]
                     cdc_chg = dataframe['cdc'].iloc[-1]
-                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg))
-        except:
+                    if 'trailingPE' not in stk_pd.info:
+                        trailPE = 0
+                    else:
+                        trailPE = stk_pd.info['trailingPE']
+                    if 'forwardPE' not in stk_pd.info:
+                        forPE = 0
+                    else:
+                        forPE = stk_pd.info['forwardPE']
+                    pePrice = lib.formatPrecis(precis,trailPE,forPE)
+                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nPE: {}\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,pePrice,rsi_chg,macd_chg,cdc_chg))
+        except Exception as e:
+            print(e)
             pass
     fn.page_print(ls,8,all_text)

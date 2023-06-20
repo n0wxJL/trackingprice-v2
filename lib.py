@@ -24,3 +24,10 @@ def datetimeUtcNow():
 def nameOfWeek():
     # return Monday,tuesday,Wednesday,Thursday,Friday,...
     return datetimeUtcNow().strftime('%A')
+
+def formatPrecis(precis,val1,val2):
+    # precis -- precision
+    # val1 -- get the value to set precision
+    if val1 is None:
+        val1 = val2
+    return '{:.{precis}f}'.format(val1,precis=precis)
