@@ -134,10 +134,15 @@ def price_last(ticker_his,period,interval,precis,iloc):
     return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
 
 def price_change_percent(ticker_his,period,interval,precis,last_price,iloc):
-    lp = float(last_price)
-    frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
-    frame = frame.iloc[:,:6]
-    return '{:.{precis}f}'.format(((lp - frame['Open'].iloc[iloc])/frame['Open'].iloc[iloc])*100,precis=precis)
+    # return string
+    try:
+        lp = float(last_price)
+        frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
+        frame = frame.iloc[:,:6]
+        pricestr = '{:.{precis}f}'.format(((lp - frame['Open'].iloc[iloc])/frame['Open'].iloc[iloc])*100,precis=precis)
+    except:
+        pricestr = '-'
+    return pricestr
 
 def price_ret_dataframe(ticker_his,period,interval):
     dataframe = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
@@ -164,7 +169,8 @@ def get_report_stock_v2():
                 price_close_day = price_last(stk_pd,'7d','1d',precis,iloc_price)
                 price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day,iloc_price)
                 price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,iloc_price)
-                print(sym,price_close_day,price_chg_day,price_chg_month)
+                price_chg_month6 = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,-5)
+                # print(sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6)
                 dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
                 if dataframe.empty == False:
                     applytechnical(dataframe)
@@ -181,8 +187,8 @@ def get_report_stock_v2():
                     else:
                         forPE = stk_pd.info['forwardPE']
                     pePrice = lib.formatPrecis(precis,trailPE,forPE)
-                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nPE: {}\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,pePrice,rsi_chg,macd_chg,cdc_chg))
+                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nCHG(6M): {}%\nPE: {}\nRSI(1D): {:,.2f}\nMACD(1D): {:,.2f}\nCDC(1D): {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6,pePrice,rsi_chg,macd_chg,cdc_chg))
         except Exception as e:
             print(e)
             pass
-    fn.page_print(ls,8,all_text)
+    fn.page_print(ls,7,all_text)
