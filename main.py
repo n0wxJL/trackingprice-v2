@@ -3,6 +3,7 @@ import gmwhale
 import pricetrack
 import fn
 import fn_stock
+import fn_report
 import setup_var as sv
 import lib
 
@@ -16,6 +17,8 @@ def main():
             fn.get_report_crypto_v2()
             fn.delay(2)
             fn_stock.get_report_stock_v2()
+            fn.delay(2)
+            fn_report.get_report_other()
             fn.delay(2)
             if lib.nameOfWeek() == 'Monday':
                 fn_stock.topyield()

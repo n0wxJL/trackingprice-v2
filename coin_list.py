@@ -24,7 +24,7 @@ stock_list = {
     'name':'BDMS.BK',
     'currency':'BAHT',
     'precision':'2',
-    'open':'1'
+    'open':'0'
     },
     'AMA':{
     'name':'AMA.BK',
@@ -48,16 +48,34 @@ stock_list = {
     'name':'CPALL.BK',
     'currency':'BAHT',
     'precision':'2',
-    'open':'1'
+    'open':'0'
     },
     'LH':{
     'name':'LH.BK',
     'currency':'BAHT',
     'precision':'2',
-    'open':'1'
+    'open':'0'
     },
     'CPF':{
     'name':'CPF.BK',
+    'currency':'BAHT',
+    'precision':'2',
+    'open':'0'
+    },
+    'BGRIM':{
+    'name':'BGRIM.BK',
+    'currency':'BAHT',
+    'precision':'2',
+    'open':'1'
+    },
+    'CBG':{
+    'name':'CBG.BK',
+    'currency':'BAHT',
+    'precision':'2',
+    'open':'1'
+    },
+    'PTG':{
+    'name':'PTG.BK',
     'currency':'BAHT',
     'precision':'2',
     'open':'1'
@@ -131,4 +149,18 @@ coin_list = {
     "precision":"3",
     "open":"1"
     }
+}
+
+list_anyting = {
+    "VOO":{
+    "name":"VOO",
+    "currency":"USD",
+    "precision":"2",
+    "open":"1"
+    },"SPY":{
+    "name":"SPY",
+    "currency":"USD",
+    "precision":"2",
+    "open":"1"
+    },
 }

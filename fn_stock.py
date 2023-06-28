@@ -1,19 +1,18 @@
-import pandas as pd
-import setup_var as sv
-from bs4 import BeautifulSoup as soup
 from urllib.request import Request,urlopen as req
-import coin_list
-import yfinance as yf
-import ta
-import fn
-import lib
 from datetime import datetime
-import requests, lxml
-from lxml import html
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup as soup
+# from lxml import html
 import os
-
+import pandas as pd
+import yfinance as yf
+import ta
+import requests, lxml
+import lib
+import fn
+import setup_var as sv
+import coin_list
 
 token_noti = sv.token_noti_status
 messenger = lib
@@ -27,40 +26,6 @@ def get_exchangerate():
     data = soup(page_html,'html.parser')
     temp = data.findAll('span',{'data-test':'instrument-price-last'})
     all_text = '\n►USD/THB: '+temp[0].text
-    messenger.lineSendText(all_text,token_noti)
-
-def get_report_stock():
-    print('get_report_stock()')
-    all_text = '\n►List Stock◄\n'
-    for i in coin_list.stock_list:
-        if coin_list.stock_list[i]['open'] == '1':
-            sym = coin_list.stock_list[i]['name']
-            precis = coin_list.stock_list[i]['precision']
-            print(sym)
-            stk_pd = yf.Ticker(sym)
-            sym = i
-            cur_sym = fn.cur_symbol(stk_pd.fast_info['currency'])
-            frame = pd.DataFrame(stk_pd.history(period="6mo",interval='1d')).reset_index()
-            frame2 = pd.DataFrame(stk_pd.history(period="2y",interval='1wk')).reset_index()
-            frame = frame.iloc[:,:6]
-            frame2 = frame2.iloc[:,:6]
-            frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-            frame.sort_values(by='Date',ascending=True,inplace=True)
-            frame2['Date'] = pd.to_datetime(frame2['Date'].dt.strftime('%Y-%m-%d'))
-            frame2.sort_values(by='Date',ascending=True,inplace=True)
-            df = frame
-            applytechnical(df)
-            applytechnical(frame2)
-            if frame.empty == False and frame2.empty == False:
-                pr_chg = ((df['Close'].iloc[-1] - df['Close'].iloc[-2])/df['Close'].iloc[-2])*100
-                close_chg = df['Close'].iloc[-1]
-                close_chg_txt = '{:.{precis}f}'.format(close_chg, precis=precis)
-                rsi_chg = df['rsi'].iloc[-1]
-                macd_chg = df['macd'].iloc[-1]
-                cdc_chg = df['cdc'].iloc[-1]
-                take_action = get_action_indicator(df)
-                all_text = all_text + '►{}:\nPrice: {}{}\nCHG(1D): {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
-    print(all_text)
     messenger.lineSendText(all_text,token_noti)
 
 def applytechnical(df):
