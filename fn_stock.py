@@ -158,5 +158,3 @@ def get_report_stock_v2():
             print(e)
             pass
     fn.page_print(ls,7,all_text)
-
-get_report_stock_v2()
