@@ -4,22 +4,27 @@ from bs4 import BeautifulSoup as soup
 import requests
 import pandas as pd
 import ta
+import math
+import setup_var as sv
 
-# def request_price_html(ticker_name,url,span_txt):
-#     #get data from request html return string
-#     #ticker_name - ex GOLD
-#     all_text = ''
-#     reqs = Request(url=url,headers={'User-Agent': 'Mozilla/5.0'})
-#     webopen = req(reqs)
-#     page_html = webopen.read()
-#     webopen.close()
-#     data = soup(page_html,'html.parser')
-#     temp = data.findAll('span',span_txt)
-#     print(temp[0])
-#     all_text = '\n►{}:'.format(ticker_name)
-#     return all_text
+token_noti = sv.token_noti_status
+
+def request_price_html(ticker_name,url,span_txt):
+    #get data from request html return string
+    #ticker_name - ex GOLD
+    all_text = ''
+    reqs = Request(url=url,headers={'User-Agent': 'Mozilla/5.0'})
+    webopen = req(reqs)
+    page_html = webopen.read()
+    webopen.close()
+    data = soup(page_html,'html.parser')
+    temp = data.findAll('span',{'{}',span_txt})
+    print(temp[0])
+    all_text = '\n►{}:'.format(ticker_name)
+    return all_text
 
 def lineSendText(message,token):
+    #connect line api
     payload = {'message' : message}
     r = requests.post('https://notify-api.line.me/api/notify'
         , headers={'Authorization' : 'Bearer {}'.format(token)}
@@ -83,3 +88,23 @@ def applytechnical(df):
     df['ema26'] = ta.trend.ema_indicator(df.Close,window=26)
     df['cdc'] = ta.trend.ema_indicator(df.Close,window=12) - ta.trend.ema_indicator(df.Close,window=26)
     df.dropna(inplace=True)
+
+def page_print(text,maxNum,headText):
+    #print Page
+    all_text = headText
+    count = 1
+    inx = 0
+    maxPage = math.ceil(len(text)/maxNum)
+    for i in range(maxPage):
+        while count <= maxNum:
+            all_text = all_text + text[inx]
+            if count == maxNum or inx+1==len(text):
+                all_text = '['+str(i+1)+']'+all_text
+                print(all_text)
+                lineSendText(all_text,token_noti)
+                all_text = headText
+                count = 1
+                inx = inx + 1
+                break
+            count = count + 1
+            inx = inx + 1

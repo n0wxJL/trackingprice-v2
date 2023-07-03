@@ -135,6 +135,7 @@ def get_report_stock_v2():
                 price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day,iloc_price)
                 price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,iloc_price)
                 price_chg_month6 = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,-5)
+                price_chg_month12 = price_change_percent(stk_pd,'2y','1mo',precis,price_close_day,-5)
                 # print(sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6)
                 dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
                 if dataframe.empty == False:
@@ -157,3 +158,5 @@ def get_report_stock_v2():
             print(e)
             pass
     fn.page_print(ls,7,all_text)
+
+get_report_stock_v2()

@@ -46,12 +46,11 @@ def get_report_other():
         except Exception as excep_c:
             print(excep_c)
             pass
-        fn.page_print(ls,7,all_text)
-
+    lib.page_print(ls,7,all_text)
 
 # def get_price_gold():
 #     #report gold
-#     #'span',{'data-test':'instrument-price-last'}
-#     lib.request_price_html('GOLD','https://th.tradingview.com/symbols/XAUUSD/','last-JWoJqCpY js-symbol-last')
+#     gold = lib.request_price_html('GOLD','https://th.tradingview.com/symbols/XAUUSD/','last-JWoJqCpY js-symbol-last')
+#     print(gold)
 
 # get_price_gold()

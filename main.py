@@ -23,9 +23,9 @@ def main():
             if lib.nameOfWeek() == 'Monday':
                 fn_stock.topyield()
             fn.delay(2)
-        if fn.alert_price(sv.interval_candle,fn.datetimeUtcNow()):
-            fn.delay(60)
-            pricetrack.pricetrack()
+        # if fn.alert_price(sv.interval_candle,fn.datetimeUtcNow()):
+        #     fn.delay(60)
+        #     pricetrack.pricetrack()
         fn.delay(1)
 
 if __name__ == "__main__":
