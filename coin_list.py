@@ -6,19 +6,19 @@ stock_list = {
     'name':'TSLA',
     'currency':'USD',
     'precision':'2',
-    'open':'1'
+    'open':'0'
     },
     'AAPL':{
     'name':'AAPL',
     'currency':'USD',
     'precision':'2',
-    'open':'1'
+    'open':'0'
     },
     'GOOG':{
     'name':'GOOG',
     'currency':'USD',
     'precision':'2',
-    'open':'1'
+    'open':'0'
     },
     'BDMS':{
     'name':'BDMS.BK',
@@ -123,13 +123,13 @@ coin_list = {
     "name":"RDNT",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "UNI":{
     "name":"UNI7083",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "CAKE":{
     "name":"CAKE",

@@ -1,7 +1,10 @@
 from urllib.request import Request,urlopen as req
 from datetime import datetime, timezone, timedelta
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup as soup
 import requests
+import os
 import pandas as pd
 import ta
 import math
@@ -9,18 +12,30 @@ import setup_var as sv
 
 token_noti = sv.token_noti_status
 
+def load_chrome_driver(proxy):
+      options = Options()
+      options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+      options.add_argument('--headless')
+      options.add_argument('--disable-gpu')
+      options.add_argument('--no-sandbox')
+      options.add_argument('--remote-debugging-port=9222')
+      options.add_argument('--proxy-server='+proxy)
+      return webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), chrome_options=options)
+
 def request_price_html(ticker_name,url,span_txt):
     #get data from request html return string
     #ticker_name - ex GOLD
     all_text = ''
-    reqs = Request(url=url,headers={'User-Agent': 'Mozilla/5.0'})
-    webopen = req(reqs)
-    page_html = webopen.read()
-    webopen.close()
-    data = soup(page_html,'html.parser')
-    temp = data.findAll('span',{'{}',span_txt})
-    print(temp[0])
-    all_text = '\n►{}:'.format(ticker_name)
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36'}
+    reqs = requests.get(url=url,headers=headers)
+    print(reqs.status_code)
+    browser = load_chrome_driver('')
+    browser.get(url)
+    html = browser.page_source
+    so = soup(html,'html.parser')
+    temp = so.find_all('span',{'class':span_txt})
+    # print(temp[0].text)
+    all_text = '\n►{}: ${}'.format(ticker_name,temp[0].text)
     return all_text
 
 def lineSendText(message,token):

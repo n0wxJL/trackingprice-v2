@@ -18,6 +18,7 @@ token_noti = sv.token_noti_status
 messenger = lib
 
 def get_exchangerate():
+    #return string
     all_text = ''
     reqs = Request(url=sv.url,headers={'User-Agent': 'Mozilla/5.0'})
     webopen = req(reqs)
@@ -26,7 +27,8 @@ def get_exchangerate():
     data = soup(page_html,'html.parser')
     temp = data.findAll('span',{'data-test':'instrument-price-last'})
     all_text = '\n►USD/THB: '+temp[0].text
-    messenger.lineSendText(all_text,token_noti)
+    # messenger.lineSendText(all_text,token_noti)
+    return all_text
 
 def applytechnical(df):
     df['rsi'] = ta.momentum.rsi(df.Close,window=14)
@@ -94,16 +96,24 @@ def topyield():
     messenger.lineSendText(all_text,token_noti)
 
 def price_last(ticker_his,period,interval,precis,iloc):
+    """
+    ticker_his -- ticker symbol
+    period -- period
+    interval -- candle time frame
+    precis -- precision 
+    iloc -- loc index
+    """
     frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
     frame = frame.iloc[:,:6]
     return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
 
 def price_change_percent(ticker_his,period,interval,precis,last_price,iloc):
-    # return string
+    #return string
     try:
         lp = float(last_price)
         frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
         frame = frame.iloc[:,:6]
+        # print(ticker_his,'-','last_price',lp,frame)
         pricestr = '{:.{precis}f}'.format(((lp - frame['Open'].iloc[iloc])/frame['Open'].iloc[iloc])*100,precis=precis)
     except:
         pricestr = '-'
@@ -135,7 +145,7 @@ def get_report_stock_v2():
                 price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day,iloc_price)
                 price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,iloc_price)
                 price_chg_month6 = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,-5)
-                price_chg_month12 = price_change_percent(stk_pd,'2y','1mo',precis,price_close_day,-5)
+                # price_chg_month12 = price_change_percent(stk_pd,'2y','1mo',precis,price_close_day,-5)
                 # print(sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6)
                 dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
                 if dataframe.empty == False:

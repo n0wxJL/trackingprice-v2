@@ -12,7 +12,7 @@ def main():
         if fn.time_next_day():
             fn.delay(300)
             gmwhale.gmwhale()
-            fn_stock.get_exchangerate()
+            fn_report.get_report_fixed()
             fn.delay(2)
             fn.get_report_crypto_v2()
             fn.delay(2)

@@ -97,7 +97,6 @@ def get_action_indicator(df):
         alltext = alltext + '▲RSI_OS👍\n'
     return alltext
 
-
 def delay(sec):
     """sec -- second"""
     time.sleep(sec)
@@ -110,35 +109,7 @@ def cur_symbol(cur):
         return '฿'
     else :
         return '$'
-
-# def get_report_crypto():
-#     """report crypto first version"""
-#     all_text = '\n►List Crypto◄\n'
-#     for i in coin_list.coin_list:
-#         if coin_list.coin_list[i]['open'] == '1':
-#             sym = coin_list.coin_list[i]['name']+'-'+coin_list.coin_list[i]['currency']
-#             precis = coin_list.coin_list[i]['precision']
-#             print(sym)
-#             stk_pd = yf.Ticker(sym)
-#             sym = i
-#             cur_sym = cur_symbol(stk_pd.fast_info['currency'])
-#             frame = pd.DataFrame(stk_pd.history(period="2mo",interval='1d')).reset_index()
-#             frame = frame.iloc[:,:6]
-#             frame['Date'] = pd.to_datetime(frame['Date'].dt.strftime('%Y-%m-%d'))
-#             frame.sort_values(by='Date',ascending=True,inplace=True)
-#             if frame.empty == False:
-#                 applytechnical(frame)
-#                 pr_chg = ((frame['Close'].iloc[-1] - frame['Close'].iloc[-2])/frame['Close'].iloc[-2])*100
-#                 close_chg = frame['Close'].iloc[-1]
-#                 rsi_chg = frame['rsi'].iloc[-1]
-#                 macd_chg = frame['macd'].iloc[-1]
-#                 cdc_chg = frame['cdc'].iloc[-1]
-#                 take_action = get_action_indicator(frame)
-#                 close_chg_txt = '{:.{precis}f}'.format(close_chg, precis=precis)
-#                 all_text = all_text + '►{}:\nPrice: {}{}\nCHG: {:,.2f}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n{}-----------\n'.format(sym,cur_sym,close_chg_txt,pr_chg,rsi_chg,macd_chg,cdc_chg,take_action)
-#     print(all_text)
-#     messenger.lineSendText(all_text,token_noti)
-
+    
 def datetimeUtcNow():
     """return date time now"""
     return datetime.utcnow()
@@ -174,6 +145,7 @@ def price_last(ticker_his,period,interval,precis,iloc):
     return '{:.{precis}f}'.format(frame['Close'].iloc[iloc],precis=precis)
 
 def price_change_percent(ticker_his,period,interval,precis,last_price,iloc):
+    #return string
     try:
         lp = float(last_price)
         frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
