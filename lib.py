@@ -34,7 +34,7 @@ def request_price_html(ticker_name,url,span_txt):
     html = browser.page_source
     so = soup(html,'html.parser')
     temp = so.find_all('span',{'class':span_txt})
-    # print(temp[0].text)
+    print(temp[0].text)
     all_text = '\n►{}: ${}'.format(ticker_name,temp[0].text)
     return all_text
 

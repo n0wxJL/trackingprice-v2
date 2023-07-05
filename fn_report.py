@@ -12,8 +12,9 @@ import lib
 def get_report_fixed():
     all_text = ''
     all_text = fn_stock.get_exchangerate()
-    all_text = all_text + get_price_gold()
+    # all_text = all_text + get_price_gold()
     print(all_text)
+    lib.lineSendText(all_text,sv.token_noti_status)
 
 def get_report_other():
     #return list of other GOLD,SPY,VOO report
@@ -54,7 +55,7 @@ def get_report_other():
             pass
     lib.page_print(ls,7,all_text)
 
-def get_price_gold():
-    #report gold
-    gold = lib.request_price_html('GOLD','https://th.tradingview.com/symbols/XAUUSD/','last-JWoJqCpY js-symbol-last')
-    return gold
+# def get_price_gold():
+#     #report gold
+#     gold = lib.request_price_html('GOLD','https://th.tradingview.com/symbols/XAUUSD/','last-JWoJqCpY js-symbol-last')
+#     return gold
