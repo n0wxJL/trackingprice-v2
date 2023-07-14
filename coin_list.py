@@ -54,7 +54,7 @@ stock_list = {
     'name':'LH.BK',
     'currency':'BAHT',
     'precision':'2',
-    'open':'0'
+    'open':'1'
     },
     'CPF':{
     'name':'CPF.BK',
@@ -76,6 +76,12 @@ stock_list = {
     },
     'PTG':{
     'name':'PTG.BK',
+    'currency':'BAHT',
+    'precision':'2',
+    'open':'1'
+    },
+    'TISCO':{
+    'name':'TISCO.BK',
     'currency':'BAHT',
     'precision':'2',
     'open':'1'

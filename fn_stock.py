@@ -154,14 +154,17 @@ def get_report_stock_v2():
                     rsi_chg = dataframe['rsi'].iloc[-1]
                     macd_chg = dataframe['macd'].iloc[-1]
                     cdc_chg = dataframe['cdc'].iloc[-1]
-                    if 'trailingPE' not in stk_pd.info:
-                        trailPE = 0
-                    else:
-                        trailPE = stk_pd.info['trailingPE']
-                    if 'forwardPE' not in stk_pd.info:
-                        forPE = 0
-                    else:
-                        forPE = stk_pd.info['forwardPE']
+                    # pause errro authorize 
+                    # if 'trailingPE' not in stk_pd.info:
+                    #     trailPE = 0
+                    # else:
+                    #     trailPE = stk_pd.info['trailingPE']
+                    # if 'forwardPE' not in stk_pd.info:
+                    #     forPE = 0
+                    # else:
+                    #     forPE = stk_pd.info['forwardPE']
+                    trailPE = 0
+                    forPE = 0
                     pePrice = lib.formatPrecis(precis,trailPE,forPE)
                     ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nCHG(6M): {}%\nPE: {}\nRSI(1D): {:,.2f}\nMACD(1D): {:,.2f}\nCDC(1D): {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6,pePrice,rsi_chg,macd_chg,cdc_chg))
         except Exception as e:
