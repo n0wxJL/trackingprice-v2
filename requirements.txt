@@ -5,5 +5,5 @@ python-binance==1.0.16
 ta==0.10.2
 forex-python==1.8
 beautifulsoup4==4.11.1
-yfinance==0.2.18
+yfinance==0.2.24
 selenium==4.9.1

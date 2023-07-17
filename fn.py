@@ -150,7 +150,8 @@ def price_change_percent(ticker_his,period,interval,precis,last_price,iloc):
         lp = float(last_price)
         frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
         frame = frame.iloc[:,:6]
-        pricestr = '{:.{precis}f}'.format(((lp - frame['Open'].iloc[iloc])/frame['Open'].iloc[iloc])*100,precis=precis)
+        print(frame)
+        pricestr = '{:.{precis}f}'.format(((lp - frame['Close'].iloc[iloc])/frame['Close'].iloc[iloc])*100,precis=precis)
     except:
         pricestr = '-'
     return pricestr
@@ -196,10 +197,10 @@ def get_report_crypto_v2():
                 stk_pd = yf.Ticker(sym)
                 sym = i
                 price_close_day = price_last(stk_pd,'7d','1d',precis,iloc_price)
-                price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day,iloc_price)
-                price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,iloc_price)
+                price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day,-2)
+                price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,-2)
                 price_chg_month6 = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,-5)
-                # print(sym,price_close_day,price_chg_day,price_chg_month)
+                print(sym,price_close_day,price_chg_day,price_chg_month)
                 dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
                 if dataframe.empty == False:
                     applytechnical(dataframe)
