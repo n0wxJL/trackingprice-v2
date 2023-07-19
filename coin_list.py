@@ -123,19 +123,19 @@ coin_list = {
     "name":"RPL",
     "currency":"USD",
     "precision":"2",
-    "open":"0"
+    "open":"1"
     },
     "RDNT":{
     "name":"RDNT",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
     },
     "UNI":{
     "name":"UNI7083",
     "currency":"USD",
     "precision":"3",
-    "open":"0"
+    "open":"1"
     },
     "CAKE":{
     "name":"CAKE",
