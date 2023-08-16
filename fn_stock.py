@@ -166,7 +166,7 @@ def get_report_stock_v2():
                     trailPE = 0
                     forPE = 0
                     pePrice = lib.formatPrecis(precis,trailPE,forPE)
-                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nCHG(6M): {}%\nPE: {}\nRSI(1D): {:,.2f}\nMACD(1D): {:,.2f}\nCDC(1D): {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6,pePrice,rsi_chg,macd_chg,cdc_chg))
+                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nCHG(6M): {}%\nRSI(1D): {:,.2f}\nMACD(1D): {:,.2f}\nCDC(1D): {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6,rsi_chg,macd_chg,cdc_chg))
         except Exception as e:
             print(e)
             pass
