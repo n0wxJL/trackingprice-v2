@@ -188,7 +188,7 @@ def get_report_crypto_v2():
     all_text = '\n►List Crypto◄\n'
     ls = []
     iloc_price = -1
-    for i in coin_list.coin_list:
+    for i in sorted(coin_list.coin_list):
         try:
             if coin_list.coin_list[i]['open'] == '1':
                 cur_sym = cur_symbol(coin_list.coin_list[i]['currency'])

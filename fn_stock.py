@@ -134,7 +134,7 @@ def get_report_stock_v2():
     trailPE = 0
     forPE = 0
     iloc_price = -1
-    for i in coin_list.stock_list:
+    for i in sorted(coin_list.stock_list):
         try:
             if coin_list.stock_list[i]['open'] == '1':
                 sym = coin_list.stock_list[i]['name']
