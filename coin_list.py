@@ -85,6 +85,12 @@ stock_list = {
     'currency':'BAHT',
     'precision':'2',
     'open':'1'
+    },
+    'PTTEP':{
+    'name':'PTTEP.BK',
+    'currency':'BAHT',
+    'precision':'2',
+    'open':'1'
     }
 }
 
@@ -123,19 +129,19 @@ coin_list = {
     "name":"RPL",
     "currency":"USD",
     "precision":"2",
-    "open":"1"
+    "open":"0"
     },
     "RDNT":{
     "name":"RDNT",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "UNI":{
     "name":"UNI7083",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "CAKE":{
     "name":"CAKE",
@@ -147,13 +153,13 @@ coin_list = {
     "name":"BNB",
     "currency":"USD",
     "precision":"2",
-    "open":"1"
+    "open":"0"
     },
     "SD":{
     "name":"SD",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     }
 }
 
