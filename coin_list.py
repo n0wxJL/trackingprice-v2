@@ -111,19 +111,19 @@ coin_list = {
     "name":"OP",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "ARB":{
     "name":"ARB11841",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "SNX":{
     "name":"SNX",
     "currency":"USD",
     "precision":"3",
-    "open":"1"
+    "open":"0"
     },
     "RPL":{
     "name":"RPL",
