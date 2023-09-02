@@ -54,7 +54,7 @@ stock_list = {
     'name':'LH.BK',
     'currency':'BAHT',
     'precision':'2',
-    'open':'1'
+    'open':'0'
     },
     'CPF':{
     'name':'CPF.BK',

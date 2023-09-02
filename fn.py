@@ -22,6 +22,7 @@ next_bar = []
 cycle_time = []
 fmt = '%Y-%m-%d %H:%M:%S'
 fmt_min = '%Y-%m-%d %H:%M'
+currentYear = str(datetime.now().year)+'-01-01'
 
 def time_next_day():
     time_servers = datetime.utcnow().replace(tzinfo=timezone.utc).replace(minute=0, second=0, microsecond=0).strftime(fmt)
@@ -150,7 +151,7 @@ def price_change_percent(ticker_his,period,interval,precis,last_price,iloc):
         lp = float(last_price)
         frame = pd.DataFrame(ticker_his.history(period=period,interval=interval)).reset_index()
         frame = frame.iloc[:,:6]
-        print(frame)
+        # print(frame)
         pricestr = '{:.{precis}f}'.format(((lp - frame['Close'].iloc[iloc])/frame['Close'].iloc[iloc])*100,precis=precis)
     except:
         pricestr = '-'
@@ -200,7 +201,8 @@ def get_report_crypto_v2():
                 price_chg_day = price_change_percent(stk_pd,'1wk','1d',precis,price_close_day,-2)
                 price_chg_month = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,-2)
                 price_chg_month6 = price_change_percent(stk_pd,'1y','1mo',precis,price_close_day,-5)
-                print(sym,price_close_day,price_chg_day,price_chg_month)
+                price_chg_year = lib.price_change_percent_for_year(stk_pd,currentYear,'1mo',precis,price_close_day,0)
+                # print(sym,price_close_day,price_chg_day,price_chg_month,price_chg_year)
                 dataframe = price_ret_dataframe(stk_pd,'2mo','1d')
                 if dataframe.empty == False:
                     applytechnical(dataframe)
@@ -209,7 +211,7 @@ def get_report_crypto_v2():
                     macd_chg = dataframe['macd'].iloc[-1]
                     cdc_chg = dataframe['cdc'].iloc[-1]
                     # all_text = all_text + '►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nRSI: {:,.2f}\nMACD: {:,.2f}\nCDC: {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,rsi_chg,macd_chg,cdc_chg)
-                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nCHG(6M): {}%\nRSI(1D): {:,.2f}\nMACD(1D): {:,.2f}\nCDC(1D): {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6,rsi_chg,macd_chg,cdc_chg))
+                    ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nCHG(6M): {}%\nCHG(1Y): {}%\nRSI(1D): {:,.2f}\nMACD(1D): {:,.2f}\nCDC(1D): {:,.2f}\n-----------\n'.format(sym,cur_sym,price_close_day,price_chg_day,price_chg_month,price_chg_month6,price_chg_year,rsi_chg,macd_chg,cdc_chg))
         except:
             pass
     page_print(ls,7,all_text)

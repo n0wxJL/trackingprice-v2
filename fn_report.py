@@ -9,6 +9,8 @@ import fn
 import fn_stock
 import lib
 
+currentYear = str(datetime.now().year)+'-01-01'
+
 def get_report_fixed():
     all_text = ''
     all_text = fn_stock.get_exchangerate()
@@ -33,7 +35,8 @@ def get_report_other():
             price_chg_day = lib.price_change_percent(stk_pd,'1wk','1d',val['precision'],price_close_day,iloc_price)
             price_chg_month = lib.price_change_percent(stk_pd,'1y','1mo',val['precision'],price_close_day,iloc_price)
             price_chg_month6 = lib.price_change_percent(stk_pd,'1y','1mo',val['precision'],price_close_day,-5)
-            # print(price_close_day,price_chg_day,price_chg_month,price_chg_month6)
+            price_chg_year = lib.price_change_percent_for_year(stk_pd,currentYear,'1mo',val['precision'],price_close_day,0)
+            # print(price_close_day,price_chg_day,price_chg_month,price_chg_month6,price_chg_year)
             dataframe = lib.price_ret_dataframe(stk_pd,'2mo','1d')
             if dataframe.empty == False:
                 lib.applytechnical(dataframe)
@@ -49,7 +52,7 @@ def get_report_other():
                 else:
                     forPE = stk_pd.info['forwardPE']
                 pePrice = lib.formatPrecis(val['precision'],trailPE,forPE)
-                ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nCHG(6M): {}%\nPE: {}\nRSI(1D): {:,.2f}\nMACD(1D): {:,.2f}\nCDC(1D): {:,.2f}\n-----------\n'.format(val['name'],cur_symbol,price_close_day,price_chg_day,price_chg_month,price_chg_month6,pePrice,rsi_chg,macd_chg,cdc_chg))
+                ls.append('►{}:\nPrice: {}{}\nCHG(1D): {}%\nCHG(1M): {}%\nCHG(6M): {}%\nCHG(1Y): {}%\nPE: {}\nRSI(1D): {:,.2f}\nMACD(1D): {:,.2f}\nCDC(1D): {:,.2f}\n-----------\n'.format(val['name'],cur_symbol,price_close_day,price_chg_day,price_chg_month,price_chg_month6,price_chg_year,pePrice,rsi_chg,macd_chg,cdc_chg))
         except Exception as excep_c:
             print(excep_c)
             pass
